@@ -1,0 +1,4049 @@
+<dashboard version="2" theme="dark">
+    <label>TAM - Monitoring Dashboard</label>
+    <description></description>
+    <definition><![CDATA[
+{
+	"title": "TAM - Monitoring Dashboard",
+	"description": "",
+	"inputs": {
+		"input_mYn3fd5n": {
+			"options": {
+				"defaultValue": "-24h@h,now",
+				"token": "sel_time_tok"
+			},
+			"title": "Time:",
+			"type": "input.timerange"
+		}
+	},
+	"defaults": {
+		"dataSources": {
+			"ds.o11y": {
+				"options": {
+					"queryParameters": {
+						"earliest": "$global_time.earliest$",
+						"latest": "$global_time.latest$"
+					}
+				}
+			},
+			"ds.search": {
+				"options": {
+					"queryParameters": {}
+				}
+			}
+		}
+	},
+	"visualizations": {
+		"viz_07ZfDqC2": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 0,
+						"value": "#118832"
+					},
+					{
+						"from": 0,
+						"value": "#118832"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_8KqUB7vo"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"shouldAbbreviateTrendValue": true,
+				"sparklineValues": "> primary | seriesByName('low')",
+				"trendValue": "> sparklineValues | delta(-2)"
+			},
+			"title": "Index - Low Severity Ingestion",
+			"type": "splunk.singlevalue"
+		},
+		"viz_0Ef6FKRS": {
+			"dataSources": {
+				"primary": "ds_siEjl2i4"
+			},
+			"options": {
+				"unit": "GB"
+			},
+			"title": "Current DDAS License GB",
+			"type": "splunk.singlevalue"
+		},
+		"viz_0ZaSBFD2": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 80,
+						"value": "#118832"
+					},
+					{
+						"from": 80,
+						"to": 90,
+						"value": "#9D9F0D"
+					},
+					{
+						"from": 90,
+						"to": 100,
+						"value": "#D97A0D"
+					},
+					{
+						"from": 100,
+						"value": "#D41F1F"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_Ef3T5rpa"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"numberPrecision": 1,
+				"sparklineValues": "> primary | seriesByName('total_forecast_perc_ddaa_utilization')",
+				"trendValue": "> sparklineValues | delta(-2)",
+				"unit": "%"
+			},
+			"title": "Forecasted DDAA License % Utilization",
+			"type": "splunk.singlevalue"
+		},
+		"viz_1OJyfspJ": {
+			"context": {
+				"CountColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_85fkwpQe"
+			},
+			"options": {
+				"columnFormat": {
+					"Count": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Count\") | formatByType(CountColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				}
+			},
+			"title": "Splunk Errors",
+			"type": "splunk.table"
+		},
+		"viz_1e8IEmns": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"context": {
+				"Historical_95th_Percentile__GB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": false,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"Historical_Avg__GB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": false,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"Ingested__GB__YesterdayColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": false,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"SeverityColumnFormatEditorConfig": {
+					"string": {
+						"unitPosition": "after"
+					}
+				},
+				"SeverityRowBackgroundColorsEditorConfig": [
+					{
+						"match": "critical",
+						"value": "#D41F1F"
+					},
+					{
+						"match": "high",
+						"value": "#d94e17"
+					},
+					{
+						"match": "medium",
+						"value": "#cba700"
+					},
+					{
+						"match": "low",
+						"value": "#118832"
+					}
+				],
+				"SeverityRowColorsEditorConfig": [
+					"#ffffff"
+				],
+				"__DeviationColumnFormatEditorConfig": {
+					"number": {
+						"precision": 2,
+						"thousandSeparated": false,
+						"unit": "%",
+						"unitPosition": "after"
+					}
+				},
+				"__of_Total_IngestColumnFormatEditorConfig": {
+					"number": {
+						"precision": 2,
+						"thousandSeparated": false,
+						"unit": "%",
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_h7uYqIgI"
+			},
+			"options": {
+				"columnFormat": {
+					"% Deviation": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"% Deviation\") | formatByType(__DeviationColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"% of Total Ingest": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"% of Total Ingest\") | formatByType(__of_Total_IngestColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Historical 95th Percentile (GB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Historical 95th Percentile (GB)\") | formatByType(Historical_95th_Percentile__GB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Historical Avg (GB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Historical Avg (GB)\") | formatByType(Historical_Avg__GB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Ingested (GB) Yesterday": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Ingested (GB) Yesterday\") | formatByType(Ingested__GB__YesterdayColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Severity": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Severity\") | formatByType(SeverityColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"rowBackgroundColors": "> table | seriesByName(\"Severity\") | matchValue(SeverityRowBackgroundColorsEditorConfig)",
+						"rowColors": "> table | seriesByName('Severity') | pick(SeverityRowColorsEditorConfig)",
+						"textOverflow": "break-word"
+					}
+				},
+				"headerVisibility": "fixed"
+			},
+			"title": "Sourcetype - Ingestion Details",
+			"type": "splunk.table"
+		},
+		"viz_1zxmr8Dp": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_HX0zuUYT_ds_yXlLcz7H_ds_GAu0uDqP_ds_PUSQRoh8"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Dashboard Studio Refreshes",
+			"type": "splunk.table"
+		},
+		"viz_3iEsNXVf": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_JObgCf4N"
+			},
+			"title": "Hosts with Failed SSL Connections",
+			"type": "splunk.line"
+		},
+		"viz_4hqjGnr5": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_N0L5C9Pj"
+			},
+			"options": {
+				"majorValue": "> sparklineValues | lastPoint()",
+				"numberPrecision": 2,
+				"sparklineValues": "> primary | seriesByName('avg_perc_reclassified')",
+				"trendDisplay": "off",
+				"trendValue": "> sparklineValues | delta(-2)",
+				"unit": "%"
+			},
+			"title": "% Reclassified Searches",
+			"type": "splunk.singlevalue"
+		},
+		"viz_58EajvXq": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"context": {
+				"Volume__GB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_ZkerxWW9"
+			},
+			"options": {
+				"columnFormat": {
+					"Volume (GB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Volume (GB)\") | formatByType(Volume__GB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				}
+			},
+			"title": "Forwarded Data Volume",
+			"type": "splunk.table"
+		},
+		"viz_5FrQhBF6": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_yXlLcz7H_ds_GAu0uDqP_ds_PUSQRoh8"
+			},
+			"title": "Dashboard Studio Refreshes",
+			"type": "splunk.singlevalue"
+		},
+		"viz_5Na7BVvW": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_PUSQRoh8"
+			},
+			"title": "Simple XML Panel Refreshes",
+			"type": "splunk.singlevalue"
+		},
+		"viz_5ldlyKq1": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_l4htPG0X_ds_2Q3vXdJ0"
+			},
+			"options": {
+				"headerVisibility": "fixed"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Potential Data Timestamp/TimeZone Issues",
+			"type": "splunk.table"
+		},
+		"viz_5qNospHP": {
+			"context": {
+				"Avg_TCP__events_sec_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unit": "events/sec",
+						"unitPosition": "after"
+					}
+				},
+				"Avg_TCP__kbps_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unit": "kbps",
+						"unitPosition": "after"
+					}
+				},
+				"Volume__MB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unit": "MB",
+						"unitPosition": "after"
+					}
+				},
+				"avg_tcp_epsColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"avg_tcp_kbpsColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"sum_MBColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unit": "MB",
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_bWr2d5Da"
+			},
+			"options": {
+				"columnFormat": {
+					"Avg TCP (events/sec)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Avg TCP (events/sec)\") | formatByType(Avg_TCP__events_sec_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Avg TCP (kbps)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Avg TCP (kbps)\") | formatByType(Avg_TCP__kbps_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Volume (MB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Volume (MB)\") | formatByType(Volume__MB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"avg_tcp_eps": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"avg_tcp_eps\") | formatByType(avg_tcp_epsColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"avg_tcp_kbps": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"avg_tcp_kbps\") | formatByType(avg_tcp_kbpsColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"sum_MB": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"sum_MB\") | formatByType(sum_MBColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				}
+			},
+			"title": "(HF/IF) Forwarder Avg TCP & Splunk Version",
+			"type": "splunk.table"
+		},
+		"viz_6CbUF4nK": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_2iiqCgqm"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": true,
+			"title": "Skipped Searches By Reason",
+			"type": "splunk.table"
+		},
+		"viz_6H75B5uE": {
+			"dataSources": {
+				"primary": "ds_ACXDUJAk"
+			},
+			"options": {
+				"legendDisplay": "off"
+			},
+			"title": "95th Percentile Indexer Cluster % Memory Utilization",
+			"type": "splunk.line"
+		},
+		"viz_6Ia1VfBd": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 1,
+						"value": "#118832"
+					},
+					{
+						"from": 1,
+						"value": "#d41f1f"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_4dpYvvxP_ds_8KqUB7vo"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"sparklineValues": "> primary | seriesByName('critical')",
+				"trendValue": "> sparklineValues | delta(-2)"
+			},
+			"title": "Sourcetype - Critical Severity Ingestion",
+			"type": "splunk.singlevalue"
+		},
+		"viz_79XD6kkV": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_FXSMUGAz"
+			},
+			"title": "Props",
+			"type": "splunk.table"
+		},
+		"viz_7E0FIaGE": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"dataSources": {
+				"primary": "ds_fEbmOrrE"
+			},
+			"options": {
+				"unit": "GB"
+			},
+			"title": "Current Licensed DDAA License GB",
+			"type": "splunk.singlevalue"
+		},
+		"viz_7PMXkN5n": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_TnONmnbf"
+			},
+			"title": "Last Chance Index Usage - unconfigured/disabled/deleted Indexes",
+			"type": "splunk.table"
+		},
+		"viz_8TO7rkxP": {
+			"context": {
+				"Run_Duration__min_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 2,
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"runDurationMinsColumnFormatEditorConfig": {
+					"number": {
+						"precision": 2,
+						"thousandSeparated": false,
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_z0pN8fTh"
+			},
+			"options": {
+				"columnFormat": {
+					"Run Duration (min)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Run Duration (min)\") | formatByType(Run_Duration__min_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"runDurationMins": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"runDurationMins\") | formatByType(runDurationMinsColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				},
+				"headerVisibility": "fixed"
+			},
+			"title": "Search Runtime Details",
+			"type": "splunk.table"
+		},
+		"viz_8xq0i2qZ": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_db1XCBW4"
+			},
+			"title": "Skipped Searches by Type",
+			"type": "splunk.pie"
+		},
+		"viz_9YhkLoQ7": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_sCWEnNjc_ds_GAu0uDqP_ds_PUSQRoh8"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Simple XML Full Refreshes",
+			"type": "splunk.table"
+		},
+		"viz_9y8djFdK": {
+			"context": {
+				"Aggregation_IssuesColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"Line_Breaking_IssuesColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"Timestamp_Parsing_IssuesColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"Total_Data_Quality_IssuesColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_9xi7i147"
+			},
+			"description": "Click sourcetype to show props",
+			"eventHandlers": [
+				{
+					"options": {
+						"tokens": [
+							{
+								"key": "row.sourcetype.value",
+								"token": "sel_tok_sourcetype"
+							}
+						]
+					},
+					"type": "drilldown.setToken"
+				}
+			],
+			"options": {
+				"columnFormat": {
+					"Aggregation Issues": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Aggregation Issues\") | formatByType(Aggregation_IssuesColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Line Breaking Issues": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Line Breaking Issues\") | formatByType(Line_Breaking_IssuesColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Timestamp Parsing Issues": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Timestamp Parsing Issues\") | formatByType(Timestamp_Parsing_IssuesColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Total Data Quality Issues": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Total Data Quality Issues\") | formatByType(Total_Data_Quality_IssuesColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				}
+			},
+			"title": "Sourcetype Details",
+			"type": "splunk.table"
+		},
+		"viz_B6LR4oJQ": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_paYoEoBZ"
+			},
+			"options": {
+				"majorValue": "> sparklineValues | lastPoint()",
+				"numberPrecision": 2,
+				"sparklineValues": "> primary | seriesByName('avg_perc_filtered')",
+				"trendDisplay": "off",
+				"trendValue": "> sparklineValues | delta(-2)",
+				"unit": "%"
+			},
+			"title": "% Filtered Searches",
+			"type": "splunk.singlevalue"
+		},
+		"viz_CGXK5sL7": {
+			"dataSources": {
+				"primary": "ds_XHR5LD6M"
+			},
+			"options": {
+				"stackMode": "stacked"
+			},
+			"title": "Indexer Ingestion Trends",
+			"type": "splunk.area"
+		},
+		"viz_CUpwmnxO": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"dataSources": {
+				"primary": "ds_1yfXvys7"
+			},
+			"options": {
+				"majorValue": "> sparklineValues | lastPoint()",
+				"sparklineValues": "> primary | seriesByName('total_forecasted_ddaa_usage_gb')",
+				"trendValue": "> sparklineValues | delta(-2)",
+				"unit": "GB"
+			},
+			"title": "Forecasted DDAA License GB",
+			"type": "splunk.singlevalue"
+		},
+		"viz_CeQy07H5": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_fs4woPWV"
+			},
+			"options": {
+				"legendDisplay": "bottom",
+				"overlayFields": [
+					"Optimal Utilization Threshold",
+					"Degraded Utilization Threshold",
+					"License Limit"
+				],
+				"stackMode": "stacked",
+				"y": "> primary | frameBySeriesNames('akamaiweb','app_apigw','app_ma_paloalto','aws_edge_services','aws_ef_showcase_eda','aws_eventbroker','azure_vmss_audit','dy_aws_audit_prod','mc_aws_audit_prodorg','sm_aws_audit_prod','_span')",
+				"y2": "> primary | frameBySeriesNames('corecard_cloud_pod2_perf','corecard_cloud_pod2_prod','corecard_cloud_pod3_prod','corecard_cloud_pod3_uat2','corecard_cloud_pod4_prod','corecard_pod1_gsperf','corecard_pod1_gsprod_syslog','corecard_pod1_gsqa','corecard_pod1_prod','netfw','_span')"
+			},
+			"title": "SVC usage by Index",
+			"type": "splunk.column"
+		},
+		"viz_Do9mv8qz": {
+			"context": {
+				"Cluster_CountColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"Total___of_SearchesColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"__of_AppsColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"__of_Search_ClustersColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"__of_Searches_Reduced__Opportunity_ColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"__of_Unique_SearchesColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_H38c7MSy"
+			},
+			"options": {
+				"columnFormat": {
+					"# of Apps": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"# of Apps\") | formatByType(__of_AppsColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"# of Search Clusters": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"# of Search Clusters\") | formatByType(__of_Search_ClustersColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"# of Searches Reduced (Opportunity)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"# of Searches Reduced (Opportunity)\") | formatByType(__of_Searches_Reduced__Opportunity_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"# of Unique Searches": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"# of Unique Searches\") | formatByType(__of_Unique_SearchesColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Cluster Count": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Cluster Count\") | formatByType(Cluster_CountColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Total # of Searches": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Total # of Searches\") | formatByType(Total___of_SearchesColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				}
+			},
+			"title": "Redundant Seaches",
+			"type": "splunk.table"
+		},
+		"viz_Dvq7UcbN": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_AWevjFNc_ds_vql6Uv2L"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Searchhead % CPU Utilization",
+			"type": "splunk.line"
+		},
+		"viz_E5jOMvND": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_VIS2MfL9"
+			},
+			"options": {
+				"legendDisplay": "off"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "95th Percentile SH % CPU Utilization",
+			"type": "splunk.line"
+		},
+		"viz_FMGYOsNA": {
+			"dataSources": {
+				"primary": "ds_KcOCyxDy"
+			},
+			"options": {
+				"legendDisplay": "off"
+			},
+			"title": "Delayed Jobs",
+			"type": "splunk.area"
+		},
+		"viz_GgY1zzwE": {
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 80,
+						"value": "#118832"
+					},
+					{
+						"from": 80,
+						"to": 90,
+						"value": "#9D9F0D"
+					},
+					{
+						"from": 90,
+						"to": 100,
+						"value": "#D97A0D"
+					},
+					{
+						"from": 100,
+						"value": "#D41F1F"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_kZtjwtv9"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"numberPrecision": 1,
+				"sparklineValues": "> primary | seriesByName('used_pct')",
+				"trendValue": "> sparklineValues | delta(-2)",
+				"unit": "%"
+			},
+			"title": "Current DDAS License % Utilization",
+			"type": "splunk.singlevalue"
+		},
+		"viz_HsmQDTlA": {
+			"dataSources": {
+				"primary": "ds_qmAgdmoG"
+			},
+			"title": "Active User Count",
+			"type": "splunk.area"
+		},
+		"viz_I79chJA6": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_UHs81mnq_ds_fs4woPWV"
+			},
+			"options": {
+				"legendDisplay": "bottom",
+				"overlayFields": [
+					"Optimal Utilization Threshold",
+					"Degraded Utilization Threshold",
+					"License Limit"
+				],
+				"y": "> primary | frameBySeriesNames('Utilized SVC','License Limit','Optimal Utilization Threshold','Degraded Utilization Threshold')",
+				"y2": "> primary | frameBySeriesNames('')"
+			},
+			"title": "SVC Usage",
+			"type": "splunk.column"
+		},
+		"viz_Io4IFQsK": {
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 80,
+						"value": "#118832"
+					},
+					{
+						"from": 80,
+						"to": 90,
+						"value": "#9D9F0D"
+					},
+					{
+						"from": 90,
+						"to": 100,
+						"value": "#D97A0D"
+					},
+					{
+						"from": 100,
+						"value": "#D41F1F"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_D2U0W01v"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"numberPrecision": 1,
+				"unit": "%"
+			},
+			"title": "Forecasted DDAS License % Utilization",
+			"type": "splunk.singlevalue"
+		},
+		"viz_JG1zRx5i": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_53B89B9k"
+			},
+			"title": "Hosts Unable to Connect to DS",
+			"type": "splunk.table"
+		},
+		"viz_JNeQHhkp": {
+			"dataSources": {
+				"primary": "ds_vYf5BLbO"
+			},
+			"options": {
+				"legendDisplay": "off"
+			},
+			"title": "95th Percentile Indexer Cluster % CPU Utilization",
+			"type": "splunk.line"
+		},
+		"viz_JvY7nbhT": {
+			"dataSources": {
+				"primary": "ds_hUsjk5Nd"
+			},
+			"title": "Indexing Queue - # of Fill Percent > 75%",
+			"type": "splunk.area"
+		},
+		"viz_MqAga7DC": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 1,
+						"value": "#118832"
+					},
+					{
+						"from": 1,
+						"value": "#d41f1f"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_8KqUB7vo"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"sparklineValues": "> primary | seriesByName('critical')",
+				"trendValue": "> sparklineValues | delta(-2)"
+			},
+			"title": "Index - Critical Severity Ingestion",
+			"type": "splunk.singlevalue"
+		},
+		"viz_Nh9WKGTF": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_2gmvYQKK"
+			},
+			"title": "Large Lookup Files",
+			"type": "splunk.table"
+		},
+		"viz_PfSUKxIJ": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_KtDEB4JS"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Indexer % Memory Utilization",
+			"type": "splunk.line"
+		},
+		"viz_QBqISOAK": {
+			"dataSources": {
+				"primary": "ds_Rzx3ryxv"
+			},
+			"options": {
+				"legendDisplay": "bottom",
+				"stackMode": "stacked"
+			},
+			"title": "Indexer Cluster Bucket Balance",
+			"type": "splunk.column"
+		},
+		"viz_RSVoP6Hf": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 0,
+						"value": "#118832"
+					},
+					{
+						"from": 0,
+						"value": "#118832"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_4dpYvvxP_ds_8KqUB7vo"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"sparklineValues": "> primary | seriesByName('low')",
+				"trendValue": "> sparklineValues | delta(-2)"
+			},
+			"title": "Sourcetype - Low Severity Ingestion",
+			"type": "splunk.singlevalue"
+		},
+		"viz_RbBPgaGs": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_wil5aSpY"
+			},
+			"options": {
+				"numberPrecision": 2,
+				"sparklineDisplay": "off",
+				"unit": "%"
+			},
+			"showProgressBar": true,
+			"title": "% Skipped Searches",
+			"type": "splunk.singlevalue"
+		},
+		"viz_RtO0yqH5": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_loIrctsm_ds_EovnCjEC"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Searchhead % Memory Utilization",
+			"type": "splunk.line"
+		},
+		"viz_SlSWimtI": {
+			"dataSources": {
+				"primary": "ds_97jvcpNd"
+			},
+			"options": {
+				"unit": "GB"
+			},
+			"title": "Forecasted DDAS License GB",
+			"type": "splunk.singlevalue"
+		},
+		"viz_UGviqIFh": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"context": {
+				"__of_SVCsColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_0ywc2XrX"
+			},
+			"options": {
+				"columnFormat": {
+					"# of SVCs": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"# of SVCs\") | formatByType(__of_SVCsColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				}
+			},
+			"title": "Search SVC Usage Details",
+			"type": "splunk.table"
+		},
+		"viz_UMj1csKW": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"context": {
+				"Avg_Storage_Day__GB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"Forecasted_DDAA_Usage__GB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"Forecasted___DDAA_UtilizationColumnFormatEditorConfig": {
+					"number": {
+						"precision": 2,
+						"thousandSeparated": true,
+						"unit": "%",
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_qzCMvHRB"
+			},
+			"options": {
+				"columnFormat": {
+					"Avg Storage/Day (GB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Avg Storage/Day (GB)\") | formatByType(Avg_Storage_Day__GB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Forecasted % DDAA Utilization": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Forecasted % DDAA Utilization\") | formatByType(Forecasted___DDAA_UtilizationColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Forecasted DDAA Usage (GB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Forecasted DDAA Usage (GB)\") | formatByType(Forecasted_DDAA_Usage__GB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				}
+			},
+			"title": "Forecasted DDAA Utilization",
+			"type": "splunk.table"
+		},
+		"viz_UYMAAz1w": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_3l2IM9dZ"
+			},
+			"title": "Forwarding Blocks by Queue",
+			"type": "splunk.line"
+		},
+		"viz_W440EdEP": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_GEE3lG60"
+			},
+			"options": {
+				"legendDisplay": "off"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Job DIspatch Runtime Delay (95th Percentile)",
+			"type": "splunk.area"
+		},
+		"viz_W8HBAsgJ": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_evMfdKtS"
+			},
+			"title": "Search SVCs by Search Label",
+			"type": "splunk.pie"
+		},
+		"viz_Wa42Y7kv": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_t3ZQREra"
+			},
+			"title": "Search SVCs by App",
+			"type": "splunk.pie"
+		},
+		"viz_a345S8MR": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_PNMHZHHZ"
+			},
+			"title": "HEC Requests",
+			"type": "splunk.line"
+		},
+		"viz_aqXPUhUR": {
+			"dataSources": {
+				"primary": "ds_ba1TywgD"
+			},
+			"title": "Sourcetypes by Overall Issue",
+			"type": "splunk.pie"
+		},
+		"viz_bhY6RpKG": {
+			"dataSources": {
+				"primary": "ds_7cxtoNuk"
+			},
+			"title": "Data Flow Activity",
+			"type": "splunk.area"
+		},
+		"viz_cIwFphrY": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 1,
+						"value": "#118832"
+					},
+					{
+						"from": 1,
+						"value": "#cba700"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_4dpYvvxP_ds_8KqUB7vo"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"sparklineValues": "> primary | seriesByName('medium')",
+				"trendValue": "> sparklineValues | delta(-2)"
+			},
+			"title": "Sourcetype - Medium Severity Ingestion",
+			"type": "splunk.singlevalue"
+		},
+		"viz_cSpsH8zx": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_rX3UZs9b"
+			},
+			"title": "Forwarder vs IDX Throughput",
+			"type": "splunk.line"
+		},
+		"viz_dNOxMjp6": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_zx3qXODe_ds_PUSQRoh8"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Simple XML Panel Refreshes",
+			"type": "splunk.table"
+		},
+		"viz_dtdRia5y": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 1,
+						"value": "#118832"
+					},
+					{
+						"from": 1,
+						"value": "#d94e17"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_8KqUB7vo"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"sparklineValues": "> primary | seriesByName('high')",
+				"trendValue": "> sparklineValues | delta(-2)"
+			},
+			"title": "Index - High Severity Ingestion",
+			"type": "splunk.singlevalue"
+		},
+		"viz_eoTCI8rR": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_bFNeQ749"
+			},
+			"showProgressBar": true,
+			"title": "Skipped Searches by App",
+			"type": "splunk.pie"
+		},
+		"viz_h7iCDqvc": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_odOsAR5B"
+			},
+			"title": "Search SVCs by User",
+			"type": "splunk.pie"
+		},
+		"viz_hTaW06Gt": {
+			"context": {
+				"_10_MinColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"_15_MinColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"_30_MinColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"_45_MinColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"_60_MinColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"__5_MinColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				},
+				"___5_MinColumnFormatEditorConfig": {
+					"number": {
+						"thousandSeparated": true,
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_ajv2MSwp"
+			},
+			"options": {
+				"columnFormat": {
+					"<= 5 Min": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"<= 5 Min\") | formatByType(___5_MinColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"> 5 Min": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"> 5 Min\") | formatByType(__5_MinColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					">10 Min": {
+						"align": "auto",
+						"data": "> table | seriesByName(\">10 Min\") | formatByType(_10_MinColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					">15 Min": {
+						"align": "auto",
+						"data": "> table | seriesByName(\">15 Min\") | formatByType(_15_MinColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					">30 Min": {
+						"align": "auto",
+						"data": "> table | seriesByName(\">30 Min\") | formatByType(_30_MinColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					">45 Min": {
+						"align": "auto",
+						"data": "> table | seriesByName(\">45 Min\") | formatByType(_45_MinColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					">60 Min": {
+						"align": "auto",
+						"data": "> table | seriesByName(\">60 Min\") | formatByType(_60_MinColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				}
+			},
+			"title": "Search Runtime Summary",
+			"type": "splunk.table"
+		},
+		"viz_hkl3QUau": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 1,
+						"value": "#118832"
+					},
+					{
+						"from": 1,
+						"value": "#cba700"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_8KqUB7vo"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"sparklineValues": "> primary | seriesByName('medium')",
+				"trendValue": "> sparklineValues | delta(-2)"
+			},
+			"title": "Index - Medium Severity Ingestion",
+			"type": "splunk.singlevalue"
+		},
+		"viz_iHcb2c5L": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_BUQ48rpL"
+			},
+			"eventHandlers": [
+				{
+					"options": {
+						"newTab": false,
+						"type": "auto"
+					},
+					"type": "drilldown.linkToSearch"
+				}
+			],
+			"options": {
+				"count": 10,
+				"dataOverlayMode": "none",
+				"drilldown": "cell",
+				"headerVisibility": "fixed",
+				"showInternalFields": false,
+				"showRowNumbers": false
+			},
+			"title": "Skipped Search Details",
+			"type": "splunk.table"
+		},
+		"viz_iTdUdr3J": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_h3TcmBu0"
+			},
+			"title": "Search SVCs by Search Type",
+			"type": "splunk.pie"
+		},
+		"viz_idmGOsQz": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_MeCiUw4x"
+			},
+			"title": "Indexing Queue - # Blocks",
+			"type": "splunk.column"
+		},
+		"viz_jinBxwRC": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_xWfnYQ5H"
+			},
+			"options": {
+				"legendDisplay": "bottom",
+				"stackMode": "stacked"
+			},
+			"title": "SVC usage by Sourcetype",
+			"type": "splunk.column"
+		},
+		"viz_kUADdMRQ": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_OnHulqZM"
+			},
+			"options": {
+				"dataValuesDisplay": "minmax",
+				"showIndependentYRanges": true,
+				"showSplitSeries": true
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "HEC Failures",
+			"type": "splunk.area"
+		},
+		"viz_lhDZzGNu": {
+			"context": {
+				"Avg_Storage_Day__GB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": true,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"Forecasted_DDAS_Usage__GB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": false,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"Forecasted___DDAS_UtilizationColumnFormatEditorConfig": {
+					"number": {
+						"precision": 2,
+						"thousandSeparated": true,
+						"unit": "%",
+						"unitPosition": "after"
+					}
+				},
+				"avg_gb_storage_per_dayColumnFormatEditorConfig": {
+					"number": {
+						"precision": 0,
+						"thousandSeparated": true,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"forecasted_ddas_usage_gbColumnFormatEditorConfig": {
+					"number": {
+						"precision": 0,
+						"thousandSeparated": true,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"index_forecast_perc_ddas_utilizationColumnFormatEditorConfig": {
+					"number": {
+						"precision": 2,
+						"thousandSeparated": false,
+						"unit": "%",
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_Mb9z0lHv"
+			},
+			"options": {
+				"columnFormat": {
+					"Avg Storage/Day (GB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Avg Storage/Day (GB)\") | formatByType(Avg_Storage_Day__GB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Forecasted % DDAS Utilization": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Forecasted % DDAS Utilization\") | formatByType(Forecasted___DDAS_UtilizationColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Forecasted DDAS Usage (GB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Forecasted DDAS Usage (GB)\") | formatByType(Forecasted_DDAS_Usage__GB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"avg_gb_storage_per_day": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"avg_gb_storage_per_day\") | formatByType(avg_gb_storage_per_dayColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"forecasted_ddas_usage_gb": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"forecasted_ddas_usage_gb\") | formatByType(forecasted_ddas_usage_gbColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"index_forecast_perc_ddas_utilization": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"index_forecast_perc_ddas_utilization\") | formatByType(index_forecast_perc_ddas_utilizationColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				}
+			},
+			"title": "Forecasted DDAS Utilization",
+			"type": "splunk.table"
+		},
+		"viz_lmG4uXtA": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_GAu0uDqP_ds_PUSQRoh8"
+			},
+			"title": "Simple XML Full Refreshes",
+			"type": "splunk.singlevalue"
+		},
+		"viz_mRcr8EjZ": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_lCfIW06f"
+			},
+			"options": {
+				"legendDisplay": "off"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "95th Percentile SH % Memory Utilization",
+			"type": "splunk.line"
+		},
+		"viz_nKgxuH6u": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_2Q3vXdJ0"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Indexer Bucket Cache Activity",
+			"type": "splunk.column"
+		},
+		"viz_nL4Oq1C3": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_mj1tKp9o"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Indexer % CPU Utilization",
+			"type": "splunk.line"
+		},
+		"viz_qGTP2gXS": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"context": {
+				"Historical_95th_Percentile__GB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": false,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"Historical_Avg__GB_ColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": false,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"Ingested__GB__YesterdayColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": false,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				},
+				"SeverityColumnFormatEditorConfig": {
+					"string": {
+						"unitPosition": "after"
+					}
+				},
+				"SeverityRowBackgroundColorsEditorConfig": [
+					{
+						"match": "critical",
+						"value": "#D41F1F"
+					},
+					{
+						"match": "high",
+						"value": "#D94E17"
+					},
+					{
+						"match": "medium",
+						"value": "#CBA700"
+					},
+					{
+						"match": "low",
+						"value": "#118832"
+					}
+				],
+				"SeverityRowColorsEditorConfig": [
+					"#ffffff"
+				],
+				"__DeviationColumnFormatEditorConfig": {
+					"number": {
+						"precision": 2,
+						"thousandSeparated": false,
+						"unit": "%",
+						"unitPosition": "after"
+					}
+				},
+				"__of_Total_IngestColumnFormatEditorConfig": {
+					"number": {
+						"precision": 2,
+						"thousandSeparated": false,
+						"unit": "%",
+						"unitPosition": "after"
+					}
+				},
+				"yest_ingested_gbColumnFormatEditorConfig": {
+					"number": {
+						"precision": 3,
+						"thousandSeparated": false,
+						"unit": "GB",
+						"unitPosition": "after"
+					}
+				}
+			},
+			"dataSources": {
+				"primary": "ds_ZWQ9cvqR"
+			},
+			"options": {
+				"columnFormat": {
+					"% Deviation": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"% Deviation\") | formatByType(__DeviationColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"% of Total Ingest": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"% of Total Ingest\") | formatByType(__of_Total_IngestColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Historical 95th Percentile (GB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Historical 95th Percentile (GB)\") | formatByType(Historical_95th_Percentile__GB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Historical Avg (GB)": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Historical Avg (GB)\") | formatByType(Historical_Avg__GB_ColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Ingested (GB) Yesterday": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Ingested (GB) Yesterday\") | formatByType(Ingested__GB__YesterdayColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					},
+					"Severity": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"Severity\") | formatByType(SeverityColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"rowBackgroundColors": "> table | seriesByName(\"Severity\") | matchValue(SeverityRowBackgroundColorsEditorConfig)",
+						"rowColors": "> table | seriesByName('Severity') | pick(SeverityRowColorsEditorConfig)",
+						"textOverflow": "break-word"
+					},
+					"yest_ingested_gb": {
+						"align": "auto",
+						"data": "> table | seriesByName(\"yest_ingested_gb\") | formatByType(yest_ingested_gbColumnFormatEditorConfig)",
+						"headerAlign": "auto",
+						"textOverflow": "break-word"
+					}
+				},
+				"headerVisibility": "fixed",
+				"tableFormat": {
+					"rowBackgroundColors": "> table | seriesByIndex(0) | pick(tableRowBackgroundColorsByTheme)"
+				}
+			},
+			"title": "Index - Ingestion Details",
+			"type": "splunk.table"
+		},
+		"viz_qfvifn9t": {
+			"dataSources": {
+				"primary": "ds_xFKcWHuH"
+			},
+			"title": "Sourcetypes by Overall Sourcetype Status",
+			"type": "splunk.pie"
+		},
+		"viz_qqHimndM": {
+			"containerOptions": {},
+			"context": {},
+			"dataSources": {
+				"primary": "ds_KtmnP7Kr"
+			},
+			"options": {},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Deployment Clients by Splunk Version",
+			"type": "splunk.pie"
+		},
+		"viz_qrf8bduA": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_LwqoP3Cx"
+			},
+			"title": "Hosts Sending Non-SSL Data",
+			"type": "splunk.table"
+		},
+		"viz_rLJUw5mS": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_SvpCIip6"
+			},
+			"title": "# of Unique HEC Tokens",
+			"type": "splunk.singlevalue"
+		},
+		"viz_ruLWRfNI": {
+			"dataSources": {
+				"primary": "ds_CA7fBbjo"
+			},
+			"title": "# of Indexers",
+			"type": "splunk.singlevalue"
+		},
+		"viz_sGH5t36N": {
+			"containerOptions": {},
+			"dataSources": {
+				"primary": "ds_ByL5VTM4"
+			},
+			"options": {
+				"dataValuesDisplay": "all",
+				"showIndependentYRanges": true,
+				"showSplitSeries": true
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Deployment Clients by OS",
+			"type": "splunk.column"
+		},
+		"viz_tgur8iFA": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_VYavCPUX"
+			},
+			"title": "Search SVCs by Provenance",
+			"type": "splunk.pie"
+		},
+		"viz_u8g39gEk": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_1gTITdVn"
+			},
+			"options": {
+				"legendDisplay": "bottom",
+				"stackMode": "stacked"
+			},
+			"title": "SVC Consumers",
+			"type": "splunk.column"
+		},
+		"viz_uwTVbAA9": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 1,
+						"value": "#118832"
+					},
+					{
+						"from": 1,
+						"value": "#d94e17"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_4dpYvvxP_ds_8KqUB7vo"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"sparklineValues": "> primary | seriesByName('high')",
+				"trendValue": "> sparklineValues | delta(-2)"
+			},
+			"title": "Sourcetype - High Severity Ingestion",
+			"type": "splunk.singlevalue"
+		},
+		"viz_v9POkuWo": {
+			"containerOptions": {
+				"visibility": {}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 80,
+						"value": "#118832"
+					},
+					{
+						"from": 80,
+						"to": 90,
+						"value": "#9D9F0D"
+					},
+					{
+						"from": 90,
+						"to": 100,
+						"value": "#D97A0D"
+					},
+					{
+						"from": 100,
+						"value": "#D41F1F"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_YbAKXwH9"
+			},
+			"options": {
+				"backgroundColor": "> majorValue | rangeValue(backgroundColorEditorConfig)",
+				"majorValue": "> sparklineValues | lastPoint()",
+				"numberPrecision": 1,
+				"sparklineValues": "> primary | seriesByName('used_pct')",
+				"trendValue": "> sparklineValues | delta(-2)",
+				"unit": "%"
+			},
+			"title": "Current DDAA License % Utilization",
+			"type": "splunk.singlevalue"
+		},
+		"viz_vNkcJBeG": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_FRk88euI"
+			},
+			"title": "Search SVCs by Search Head",
+			"type": "splunk.pie"
+		},
+		"viz_vl0xMnFe": {
+			"containerOptions": {},
+			"context": {},
+			"dataSources": {
+				"primary": "ds_wMczmFlB_ds_KcOCyxDy"
+			},
+			"options": {},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Delayed Jobs",
+			"type": "splunk.table"
+		},
+		"viz_yptITt3J": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_8oG11wYA"
+			},
+			"options": {
+				"majorValue": "> sparklineValues | lastPoint()",
+				"numberPrecision": 2,
+				"sparklineValues": "> primary | seriesByName('avg_perc_aborted')",
+				"trendDisplay": "off",
+				"trendValue": "> sparklineValues | delta(-2)",
+				"unit": "%"
+			},
+			"title": "% Aborted Searches",
+			"type": "splunk.singlevalue"
+		},
+		"viz_z9LOlEPt": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"dataSources": {
+				"primary": "ds_oM7wZOeP"
+			},
+			"options": {
+				"legendDisplay": "bottom",
+				"stackMode": "stacked"
+			},
+			"title": "SVC Usage by Search Type",
+			"type": "splunk.column"
+		},
+		"viz_zVCO1R9b": {
+			"dataSources": {
+				"primary": "ds_iR8Wnyk5"
+			},
+			"title": "Search Type Activity",
+			"type": "splunk.table"
+		}
+	},
+	"dataSources": {
+		"ds_0ywc2XrX": {
+			"name": "tam_svc_usagedetails",
+			"options": {
+				"extend": "ds_HuILKVMp",
+				"query": "| table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage\n| sort 0 - svc_usage\n| rename role as \"Splunk Server Role\", search_app as \"App\",search_head_names as \"Search Head Name\",search_label as \"Search Label\",search_modes as \"Search Mode\", search_provenances as \"Provenance\",search_type as \"Search Type\",search_user as \"User\", svc_usage as \"# of SVCs\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_1gTITdVn": {
+			"name": "tam_svc_consumers_consumers",
+			"options": {
+				"extend": "ds_hUaaNhBF",
+				"query": "| timechart span=1h sum(utilized_svc) by svc_consumer \n| rename \"data services\" as \"ingestion\", \"search\" as \"search\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_1yfXvys7": {
+			"name": "tam_storage_ddaa_fgb",
+			"options": {
+				"extend": "ds_XKfk9UDw",
+				"query": "|timechart latest(total_forecasted_ddaa_usage_gb) as total_forecasted_ddaa_usage_gb\n"
+			},
+			"type": "ds.chain"
+		},
+		"ds_2Q3vXdJ0": {
+			"name": "tam_idx_cache_activity",
+			"options": {
+				"query": "index=_audit host=idx* action=\"*_bucket_*\" kb>0 \n| fields cache_id,kb,host,action \n| rex field=cache_id \"(?i)bid\\|(?<indexn>[^-~]*)\" \n| eval idxact=action+\"_\"+indexn \n| timechart sum(kb) by action \n| foreach * \n    [ eval <<FIELD>>=round((<<FIELD>>/1024/1024),2)] \n| rename local_* AS *_gb, remote_* AS *_gb",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_2gmvYQKK": {
+			"name": "tam_search_lookupsizes",
+			"options": {
+				"query": "index=_internal sourcetype=splunkd host=\"sh*\" host=\"*splunkcloud.com\" BundleReplicatorThread Archiving large_file \n| table _time,host,large_file,size_in_bytes,threshold \n| eval size_in_gb=round(size_in_bytes/(1024*1024*1024),2) \n| dedup host,large_file \n| eval perc_exceeding_threshold=round(100*(size_in_bytes/threshold),2)\n| sort - perc_exceeding_threshold",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_2iiqCgqm": {
+			"name": "tam_skipped_search_by_reason",
+			"options": {
+				"extend": "ds_baseSearch1",
+				"query": "| stats count as \"Skipped Searches\" by reason\n|rename reason as \"Reason\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_3l2IM9dZ": {
+			"name": "tam_fwd_blocksqueue",
+			"options": {
+				"query": "index=_internal sourcetype=splunkd OR source=metrics.log blocked=true \n| search (host=\"*\") \n| eval group=name+\" blocked\" \n| timechart bins=1000 count by group useother=f",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_4dpYvvxP_ds_8KqUB7vo": {
+			"name": "tam_ingmon_by_st_summary",
+			"options": {
+				"extend": "ds_h7uYqIgI",
+				"query": "| stats count(eval(Severity=\"low\")) as \"low\" count(eval(Severity=\"medium\")) as \"medium\" count(eval(Severity=\"high\")) as \"high\" count(eval(Severity=\"critical\")) as \"critical\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_53B89B9k": {
+			"name": "tam_fwd_unableconnds",
+			"options": {
+				"query": "index=_internal sourcetype=splunkd err=not_connected component=\"DC:DeploymentClient\" phonehome \n| stats count by host\n| table host\n| rename host as \"Hostname\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_7cxtoNuk": {
+			"name": "tam_fwd_flowact",
+			"options": {
+				"query": "index=_internal source=*/splunk/metrics.log* group=tcpout_connections \n| rex field=name \"(?<name>.*?)9997\" \n| stats sum(kb) AS kb dc(name) AS indexers_receiving_data by host _time \n| eval gb_sent_to_indexers=(kb/1024)/1024 \n| sort 0 - gb_sent_to_indexers \n| bucket span=1h _time \n| timechart bins=1000 max(gb_sent_to_indexers) as GB \n| predict GB",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_85fkwpQe": {
+			"name": "tam_splunk_errors",
+			"options": {
+				"query": "index=_internal sourcetype=\"splunkd\" log_level=\"ERROR\" host=\"*splunkcloud.com\"\n| stats sparkline count dc(host) as uniqhosts latest(event_message) as message latest(_time) as last earliest(_time) as first by punct \n| table message count uniqhosts sparkline first last \n| convert ctime(last) ctime(first) \n| sort - count \n| rename message as \"Error Output\" count as Count uniqhosts as \"Number of Hosts\" first as \"First Occurance\" last as \"Most Recent Occurance\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_8KqUB7vo": {
+			"name": "tam_ingmon_by_idx_summary",
+			"options": {
+				"extend": "ds_ZWQ9cvqR",
+				"query": "| stats count(eval(Severity=\"low\")) as \"low\" count(eval(Severity=\"medium\")) as \"medium\" count(eval(Severity=\"high\")) as \"high\" count(eval(Severity=\"critical\")) as \"critical\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_8oG11wYA": {
+			"name": "tam_wlm_abort_perc",
+			"options": {
+				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* (`sim_search_head_host` OR `sim_indexer_host`) wlm_action = \"abort\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as aborted by _time] \n| bucket _time span=1h \n| table _time,searches,aborted \n| stats sum(searches) as searches, sum(aborted) as aborted by _time \n| sort _time \n| eval total=searches+aborted \n| eval perc_aborted=100*(aborted/total) \n| streamstats avg(perc_aborted) as avg_perc_aborted \n| timechart span=1h latest(avg_perc_aborted) as avg_perc_aborted \n| where isnotnull(avg_perc_aborted)\n| where avg_perc_aborted>0",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_97jvcpNd": {
+			"name": "tam_storage_ddas_fgb",
+			"options": {
+				"extend": "ds_XKfk9UDw",
+				"query": "| timechart latest(total_forecasted_ddas_usage_gb) as total_forecasted_ddas_usage_gb"
+			},
+			"type": "ds.chain"
+		},
+		"ds_9xi7i147": {
+			"name": "tam_dq_stdetail",
+			"options": {
+				"extend": "ds_BXeLWlrU",
+				"query": "| table sourcetype,sourcetype_overall_status,sourcetype_overall_status_desc,total_issues,line_breaking_issues,timestamp_parsing_issues,aggregation_issues\n| sort -total_issues\n\n| rename sourcetype_overall_status as \"Status\",sourcetype_overall_status_desc as \"Status Description\",total_issues as \"Total Data Quality Issues\",line_breaking_issues as \"Line Breaking Issues\",timestamp_parsing_issues as \"Timestamp Parsing Issues\",aggregation_issues as \"Aggregation Issues\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_ACXDUJAk": {
+			"name": "tam_os_mem_idx_95timechart",
+			"options": {
+				"extend": "ds_qND4VWkZ_ds_ICcZNsCQ",
+				"query": "| search host=\"idx*\"\n| timechart perc95(mem_perc_used) as \"% Memory Utilization\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_AWevjFNc_ds_vql6Uv2L": {
+			"name": "tam_os_cpu_sh_timechart",
+			"options": {
+				"extend": "ds_ICcZNsCQ",
+				"query": "| search host=\"sh-*\"\n| timechart bins=1000 max(cpu_perc_used) as \"% CPU Utilization\" by host useother=f"
+			},
+			"type": "ds.chain"
+		},
+		"ds_BUQ48rpL": {
+			"name": "tam_skipped_search_details",
+			"options": {
+				"extend": "ds_baseSearch1",
+				"query": "|table _time search_type user status app savedsearch_name priority reason\n| rename  search_type as \"Search Type\", user as \"User\", status as \"Status\",app as \"App\",savedsearch_name as \"SavedSearch Name\",priority as \"Priority\",reason as \"Reason\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_BXeLWlrU": {
+			"name": "tam_dq_base",
+			"options": {
+				"query": "| tstats count as eventCount where index=* by sourcetype \n| join type=left sourcetype \n    [| btool props list splunk_server=local ```btool command requires admin's little helper app```\n    | eval sourcetype='btool.stanza' \n    | eval app='btool.stanza.app' \n    | table sourcetype,app,SHOULD_LINEMERGE,LINE_BREAKER,TIME_PREFIX,MAX_TIMESTAMP_LOOKAHEAD,TIME_FORMAT,TRUNCATE,EVENT_BREAKER_ENABLE,EVENT_BREAKER \n    | eval has_props=\"true\"] \n| join type=left sourcetype \n    [ search `sim_set_index_internal` source=*splunkd.log* \n        (component=AggregatorMiningProcessor OR component=LineBreakingProcessor OR component=DateParserVerbose)\n        (log_level=WARN OR log_level=ERROR) \n    | rex field=_raw \"Context: source(::|=)(?<context_source>[^\\|]*?)\\|host(::|=)(?<context_host>[^\\|]*?)\\|(?<context_sourcetype>[^\\|]*?)\\|\" \n    | eval data_source = if(isnull(data_source) AND isnotnull(context_source), context_source, data_source) \n    | eval data_sourcetype = if(isnull(data_sourcetype) AND isnotnull(context_sourcetype), context_sourcetype, data_sourcetype) \n    | eval data_host = if(isnull(data_host) AND isnotnull(context_host), context_host, data_host) \n    | search `sim_exclude_internal_sourcetypes(data_sourcetype)` \n    | stats\n        count(eval(component==\"LineBreakingProcessor\" OR component==\"DateParserVerbose\" OR component==\"AggregatorMiningProcessor\")) as total_issues\n        dc(data_source) AS \"Source Count\"\n        count(eval(component==\"LineBreakingProcessor\")) AS line_breaking_issues\n        count(eval(component==\"DateParserVerbose\")) AS timestamp_parsing_issues\n        count(eval(component==\"AggregatorMiningProcessor\")) AS aggregation_issues by data_sourcetype \n    | sort - total_issues \n    | rename\n        data_sourcetype as sourcetype] \n| eval props_status=if(isnull(has_props), \"BAD\", \"GOOD\") \n| eval props_deployment_status=if(app=\"search\",\"BAD\",\"GOOD\") \n| eval dataquality_status=if(total_issues>100,\"BAD\",\"GOOD\") \n| eval sourcetype_overall_status=if(props_status=\"GOOD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"GOOD\",\"GOOD\",\"BAD\") \n| eval sourcetype_overall_status_desc=case(sourcetype_overall_status=\"GOOD\",null,props_status=\"GOOD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"BAD\",\"Poor data quality\",props_status=\"GOOD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"GOOD\",\"Props not deployed correctly in private app\", props_status=\"GOOD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"BAD\",\"Poor data quality / Props not deployed correctly in private app\",props_status=\"BAD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"GOOD\",\"Missing props\",props_status=\"BAD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"BAD\",\"Missing props / Poor data quality\",props_status=\"BAD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"GOOD\",\"Missing props\",props_status=\"BAD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"BAD\",\"Missing props / Poor data quality\") \n| fillnull value=0 total_issues \n| table sourcetype,sourcetype_overall_status,sourcetype_overall_status_desc,app,total_issues,line_breaking_issues,timestamp_parsing_issues,aggregation_issues,SHOULD_LINEMERGE,LINE_BREAKER,TIME_PREFIX,MAX_TIMESTAMP_LOOKAHEAD,TIME_FORMAT,TRUNCATE,EVENT_BREAKER_ENABLE,EVENT_BREAKER \n| sort -total_issues",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_ByL5VTM4": {
+			"name": "tam_dc_conn_dc_by_os",
+			"options": {
+				"extend": "ds_uDkODl0q",
+				"query": "| timechart count span=1h by os"
+			},
+			"type": "ds.chain"
+		},
+		"ds_CA7fBbjo": {
+			"name": "tam_idx_count",
+			"options": {
+				"query": "| btool app list launcher --local splunk_server=i*\n| stats count",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_D2U0W01v": {
+			"name": "tam_storage_ddas_fperc",
+			"options": {
+				"extend": "ds_XKfk9UDw",
+				"query": "| timechart latest(total_forecast_perc_ddas_utilization) as total_forecast_perc_ddas_utilization"
+			},
+			"type": "ds.chain"
+		},
+		"ds_Ef3T5rpa": {
+			"name": "tam_storage_ddaa_fperc",
+			"options": {
+				"extend": "ds_XKfk9UDw",
+				"query": "| timechart usenull=false latest(total_forecast_perc_ddaa_utilization) as total_forecast_perc_ddaa_utilization\n"
+			},
+			"type": "ds.chain"
+		},
+		"ds_FRk88euI": {
+			"name": "tam_svc_bysearchhead",
+			"options": {
+				"extend": "ds_HuILKVMp",
+				"query": "| table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage,hourly_svc_usage,total_svc_usage\n|stats sum(svc_usage) as svc_usage by search_head_names"
+			},
+			"type": "ds.chain"
+		},
+		"ds_FXSMUGAz": {
+			"name": "tam_dq_btoolprops",
+			"options": {
+				"query": "| btool props list splunk_server=local \n| eval sourcetype='btool.stanza' \n| search sourcetype=\"$sel_tok_sourcetype$\" \n| eval app='btool.stanza.app' \n| table sourcetype,_raw",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_GAu0uDqP_ds_PUSQRoh8": {
+			"name": "tam_dbrefresh_simplexmlfull_count",
+			"options": {
+				"extend": "ds_m1QmjvhU",
+				"query": "| table app,dashboard,owner,simplexml_panel_refresh_interval,simplexml_full_refresh_interval,dashstudio_refresh_interval \n| search simplexml_full_refresh_interval!=\"\"\n| stats dc(dashboard) as dashboards\n| where dashboards>0"
+			},
+			"type": "ds.chain"
+		},
+		"ds_GEE3lG60": {
+			"name": "tam_search_job_dispatch_runtime_delay",
+			"options": {
+				"query": "index=_internal sourcetype=scheduler app=\"*\" scheduled_time=* savedsearch_name=\"*\" host=\"sh-*\"\n| eval time=strftime(_time,\"%Y-%m-%d %H:%M:%S\") \n| eval delay_in_start = (dispatch_time - scheduled_time) \n| eval scheduled_time=strftime(scheduled_time,\"%Y-%m-%d %H:%M:%S\") \n| eval dispatch_time=strftime(dispatch_time,\"%Y-%m-%d %H:%M:%S\") \n| timechart bins=1000 perc95(run_time) as \"95th Percentile Runtime (Seconds)\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_H38c7MSy": {
+			"name": "tam_redundant_searches",
+			"options": {
+				"query": "| rest splunk_server=local /servicesNS/-/-/saved/searches search=\"is_scheduled=1\" search=\"disabled=0\" \n| where NOT match(title, \"^(?:_ScheduledView_|Bucket Copy Trigger|DB inspection|Notable - Total Events By \\w+ Domain)\") AND NOT match('eai:acl.app', \"^(?:splunk_\\w+_console|TA-fire_brigade|DA-ESS-|SA-\\w+Protection|SA-ThreatIntelligence|itsi|SA-ITOA|SA-Utils|SA-ITSI-|Splunk_AI_Assistant_Cloud|data_manager|insights_app_splunk)\") \n| fields is_scheduled, disabled, title eai:acl.app eai:acl.owner eai:acl.sharing cron_schedule dispatch.earliest_time dispatch.latest_time search actions schedule_window splunk_server \n| rename eai:acl.* AS * dispatch.earliest_time AS dispatch_earliest_time dispatch.latest_time AS dispatch_latest_time splunk_server AS host \n| eval role_label=host \n| stats values(search) values(cron_schedule) values(actions) by role_label, title, app, owner \n| rename values(*) AS * \n| cluster labelonly=true match=ngramset field=search \n| stats count list(search) as \"Searches\" dc(search) AS \"# of Unique Searches\" list(title) as \"Saved Searches\" values(app) AS \"App(s)\", dc(app) AS \"# of Apps\" values(owner) AS \"Owner(s)\" values(cron_schedule) as \"Cron Schedule(s)\" values(role_label) AS \"Instances\" values(actions) AS \"Action(s)\" by cluster_label \n| where count > 1 \n| fields - cluster_label \n| eventstats sum(count) AS search_tally count AS search_clusters \n| eval search_reduction_oppty=search_tally-search_clusters\n| sort - count\n| rename search_clusters as \"# of Search Clusters\"\n| rename search_reduction_oppty as \"# of Searches Reduced (Opportunity)\", search_tally as \"Total # of Searches\", count as \"Cluster Count\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_HX0zuUYT_ds_yXlLcz7H_ds_GAu0uDqP_ds_PUSQRoh8": {
+			"name": "tam_dbrefresh_dbs_table",
+			"options": {
+				"extend": "ds_m1QmjvhU",
+				"query": "| table app,dashboard,owner,dashstudio_refresh_interval,svc_usage\n| sort - svc_usage\n| search dashstudio_refresh_interval!=\"\"\n|rename dashstudio_refresh_interval as \"refresh_interval\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_HuILKVMp": {
+			"name": "tam_svc_search_base",
+			"options": {
+				"query": "(index=_cmc_summary OR index=summary) source=\"splunk-svc-search-attribution\" svc_consumer=search \n| table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage \n| eventstats sum(svc_usage) as total_svc_usage \n| eventstats sum(svc_usage) as hourly_svc_usage by _time",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_ICcZNsCQ": {
+			"name": "tam_os_cpu_base",
+			"options": {
+				"query": "index=_introspection component=Hostwide data.mem_used=* host=\"*splunkcloud.com\"\n| fields - _raw \n| fields data.cpu_user_pct, data.cpu_system_pct, host , sh_label \n| rename \"data.cpu_user_pct\" as user_pct, \"data.cpu_system_pct\" as system_pct \n| eval cpu_perc_used=user_pct+system_pct \n",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_JObgCf4N": {
+			"name": "tam_fwd_failedssl",
+			"options": {
+				"query": "index=_internal sourcetype=splunkd \"SSL routines\" component=TcpInputProc\n| rex field=src \"(?<src_ip>[\\d\\.]+):\"\n| timechart minspan=5m count as \"SSL Errors\" by src_ip",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_KcOCyxDy": {
+			"name": "tam_search_delayed_jobs",
+			"options": {
+				"query": "index=_internal sourcetype=scheduler app=* scheduled_time=* savedsearch_name=\"*\" host=\"sh-*\"\n| eval time=strftime(_time,\"%Y-%m-%d %H:%M:%S\") \n| eval delay_in_start = (dispatch_time - scheduled_time) \n| eval scheduled_time=strftime(scheduled_time,\"%Y-%m-%d %H:%M:%S\") \n| eval dispatch_time=strftime(dispatch_time,\"%Y-%m-%d %H:%M:%S\") \n| fillnull value=\"0\" delay_in_start \n| search delay_in_start!=\"0\" \n| eventstats count as total\n| eval perc_delayed=100*(delay_in_start/total)\n| timechart bins=1000 max(perc_delayed) as \"% Delayed Jobs\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_KtDEB4JS": {
+			"name": "tam_os_mem_idx_timechart",
+			"options": {
+				"extend": "ds_qND4VWkZ_ds_ICcZNsCQ",
+				"query": "| search host=\"idx*\"\n| timechart limit=0 useother=f max(mem_perc_used) as \"% Memory Utilization\" by host"
+			},
+			"type": "ds.chain"
+		},
+		"ds_KtmnP7Kr": {
+			"name": "tam_dc_conn_hostcountbar",
+			"options": {
+				"extend": "ds_uDkODl0q",
+				"query": "| stats count(hostname) as hosts by version"
+			},
+			"type": "ds.chain"
+		},
+		"ds_LwqoP3Cx": {
+			"name": "tam_fwd_nonssldata",
+			"options": {
+				"query": "index=_internal sourcetype=splunkd ssl=false group=tcpin_connections source=\"/opt/splunk/var/log/splunk/metrics.log\" \n| stats count by hostname\n| table hostname\n| rename hostname as \"Hostname\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_Mb9z0lHv": {
+			"name": "tam_storage_ddas_forecast",
+			"options": {
+				"extend": "ds_rUyUHCyb",
+				"query": "| where ddas_retention_period>0\n| table indexName,avg_gb_storage_per_day,ddas_retention_period,forecasted_ddas_usage_gb,index_forecast_perc_ddas_utilization\n|sort - forecasted_ddas_usage_gb\n| rename indexName as \"Index\"\n| rename avg_gb_storage_per_day as \"Avg Storage/Day (GB)\", ddas_retention_period as \"DDAS Retention Period (Days)\", forecasted_ddas_usage_gb as \"Forecasted DDAS Usage (GB)\", index_forecast_perc_ddas_utilization as \"Forecasted % DDAS Utilization\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_MeCiUw4x": {
+			"name": "tam_idx_blocks",
+			"options": {
+				"query": "index=_internal sourcetype=splunkd OR source=metrics.log blocked=true host=\"idx-i-*\"\n| eval group=name+\" blocked\" \n| timechart limit=10 count by group useother=f",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_N0L5C9Pj": {
+			"name": "tam_wlm_reclassified_perc",
+			"options": {
+				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* (`sim_search_head_host` OR `sim_indexer_host`) wlm_action = \"move\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as reclassified by _time] \n| bucket _time span=1h \n| table _time,searches,reclassified \n| stats sum(searches) as searches, sum(reclassified) as reclassified by _time \n| sort _time \n| eval total=searches+reclassified \n| eval perc_reclassified=100*(reclassified/total) \n| streamstats avg(perc_reclassified) as avg_perc_reclassified \n| timechart span=1h latest(avg_perc_reclassified) as avg_perc_reclassified \n| where isnotnull(avg_perc_reclassified)\n| where avg_perc_reclassified>0",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_OnHulqZM": {
+			"name": "tam_hec_failures",
+			"options": {
+				"extend": "ds_lWuZJjOB",
+				"query": "| timechart bins=1000 sum(data.num_of_errors) as error_count, sum(data.num_of_auth_failures) as Auth_Failures, sum(data.num_of_parser_errors) as Parser_errors sum(data.num_of_requests_to_incorrect_url) as Request_to_incorrect_URL\n| where error_countL>0 OR Auth_Failures>0 OR Parser_errors>0 OR Request_to_incorrect_URL>0"
+			},
+			"type": "ds.chain"
+		},
+		"ds_PNMHZHHZ": {
+			"name": "tam_hec_requests",
+			"options": {
+				"query": "(index=_introspection sourcetype=http_event_collector_metrics source=\"*http_event_collector_metrics.log\" component=\"HttpEventCollector\" \"data.series\"=\"http_event_collector\") \n| bin _time bins=1000\n| stats sum(data.num_of_events) as events_total, sum(data.num_of_requests) as requests_total, sum(data.num_of_requests_to_disabled_token) as disabled_token_total, sum(data.num_of_requests_to_incorrect_url) as incorrect_url_total, sum(data.num_of_auth_failures) as auth_fail_total, sum(data.num_of_parser_errors) as parser_error_total, sum(data.total_bytes_indexed) as data_indexed, sum(data.total_bytes_received) as data_received by _time \n| eval incorrect_url_total=if(isnull(incorrect_url_total),0,incorrect_url_total), auth_fail_total=if(isnull(auth_fail_total),0,auth_fail_total), data_indexed=(data_indexed / 1048576), data_received=(data_received / 1048576), valid_requests_total=requests_total, invalid_requests_total=((disabled_token_total + incorrect_url_total) + auth_fail_total) \n| timechart bins=1000 sum(valid_requests_total) as \"Valid Requests\" sum(invalid_requests_total) as \"Invalid Requests\" sum(data_received) as \"Data Received\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_PUSQRoh8": {
+			"name": "tam_dbrefresh_simplexmlpanel_count",
+			"options": {
+				"extend": "ds_m1QmjvhU",
+				"query": "| table app,dashboard,owner,simplexml_panel_refresh_interval,simplexml_full_refresh_interval,dashstudio_refresh_interval \n|search simplexml_panel_refresh_interval!=\"\"\n| stats dc(dashboard) as dashboards\n| where dashboards>0"
+			},
+			"type": "ds.chain"
+		},
+		"ds_Rzx3ryxv": {
+			"name": "tam_idx_idcbalance",
+			"options": {
+				"query": "| dbinspect index=* \n| search index!=_* \n| chart dc(bucketId) over splunk_server by index useother=false",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_SvpCIip6": {
+			"name": "tam_hec_tokens_count",
+			"options": {
+				"extend": "ds_lWuZJjOB",
+				"query": "| timechart bins=1000 dc(data.token_name) AS Hec_count"
+			},
+			"type": "ds.chain"
+		},
+		"ds_TnONmnbf": {
+			"name": "tam_last_chance_index",
+			"options": {
+				"query": "index=_internal sourcetype=splunkd host=\"idx*\" host=\"*splunkcloud.com\" component=\"IndexerService\" Redirected event for unconfigured/disabled/deleted earliest=-7d latest=now\n|rex field=_raw \"index\\=(?P<data_index>[^\\s]+)\"\n|rex field=_raw \"source\\=\\\"source\\:\\:(?P<data_source>[^\\\"]+)\\\"\"\n|rex field=_raw \"host\\=\\\"host\\:\\:(?P<data_host>[^\\\"]+)\\\"\"\n|rex field=_raw \"sourcetype\\=\\\"sourcetype\\:\\:(?P<data_sourcetype>[^\\\"]+)\\\"\"\n|table _time,data_index,data_sourcetype,data_source,data_host\n|stats latest(_time) as _time count as \"Total Failed Events\" values(data_sourcetype) as \"Data Sourcetypes\" values(data_source) as \"Data Sources\" values(data_host) as \"Data Hosts\" by data_index\n| rename data_index as \"Invalid/Deleted Index\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_UHs81mnq_ds_fs4woPWV": {
+			"name": "tam_svc_usage",
+			"options": {
+				"query": "(index=_cmc_summary OR index=summary) source=\"splunk-svc\" \n| dedup _time, role \n| stats sum(utilized_svc) as utilized_svc\n    latest(stack_license_svc) as stack_license_svc\n    by _time \n| timechart span=1h\n    max(utilized_svc) AS utilized_svc\n    max(stack_license_svc) AS stack_license_svc \n| trendline sma24(utilized_svc) AS \"Average SVC Utilization\" \n| eval optimal_threshold=if(stack_license_svc>0, stack_license_svc*.8, 0) \n| eval degradation_threshold=stack_license_svc*.9 \n| where stack_license_svc>0 \n| rename stack_license_svc as \"License Limit\" \n| rename optimal_threshold as \"Optimal Utilization Threshold\", utilized_svc as \"Utilized SVC\" \n| rename degradation_threshold as \"Degraded Utilization Threshold\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_VIS2MfL9": {
+			"name": "tam_cpu_mem_sh_95timechart",
+			"options": {
+				"extend": "ds_ICcZNsCQ",
+				"query": "| search host=\"sh*\"\n| timechart perc95(cpu_perc_used) as \"% CPU Utilization\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_VYavCPUX": {
+			"name": "tam_svc_byprovenance",
+			"options": {
+				"extend": "ds_HuILKVMp",
+				"query": "| table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage,hourly_svc_usage,total_svc_usage\n|stats sum(svc_usage) as svc_usage by search_provenances"
+			},
+			"type": "ds.chain"
+		},
+		"ds_XHR5LD6M": {
+			"name": "tam_idx_ing_trends",
+			"options": {
+				"query": "index=_internal Metrics TERM(group=thruput) TERM(name=thruput) \n    sourcetype=splunkd host=idx-i* \n| fields - _raw \n| fields _time host kb ingest_pipe \n| eval host_pipeline=host.\"-\".ingest_pipe \n| timechart minspan=30sec limit=0 per_second(kb) by host_pipeline",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_XKfk9UDw": {
+			"name": "tam_storageforecast_base",
+			"options": {
+				"query": "index=_internal sourcetype=storage_utilization_forecaster \n| table _time,total_forecast_perc_ddas_utilization,total_forecasted_ddaa_usage_gb,total_forecasted_ddas_usage_gb,total_forecast_perc_ddaa_utilization\n| fillnull value=0",
+				"queryParameters": {
+					"earliest": "-30d@d",
+					"latest": "now"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_YbAKXwH9": {
+			"name": "tam_storage_ddaa_aperc",
+			"options": {
+				"query": "(index=_cmc_summary OR index=summary) source=\"splunk-storage-summary\" \n| fields activeArchiveLicenseGB activeStorageLicenseGB rawSizeBytes rawSizeBytesCustomer rawSizeGBCustomer DDAARestoreAllowance DDAARestoreLimitGB rawSizeGBDDAARestoredTotal \n| stats latest(activeArchiveLicenseGB) as activeArchiveLicenseGB, latest(_time) as latestTime \n| appendcols \n    [ search (index=_cmc_summary OR index=summary) source=\"splunk-ddaa-detail\" \n    | fields indexName archiveUsage \n    | stats latest(archiveUsage) as archiveUsage by indexName \n    | stats sum(archiveUsage) as entitlementUsage \n    | fillnull value=0] \n| fillnull entitlementUsage \n| eval entitlement=if(activeArchiveLicenseGB>0, activeArchiveLicenseGB, 0) \n| eval usage=if(entitlement=\"N/A\", 0, entitlementUsage) \n| eval activeArchiveLicenseGB=if(entitlement=\"N/A\",0,activeArchiveLicenseGB) \n| eval used_pct=coalesce((usage/activeArchiveLicenseGB)*100,0)\n| fields entitlement usage used_pct latestTime \n| fillnull value=0\n",
+				"queryParameters": {
+					"earliest": "-25h@h",
+					"latest": "now"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_ZWQ9cvqR": {
+			"name": "tam_ingmon_by_idx",
+			"options": {
+				"query": "index=_internal sourcetype=\"ingestion_usage\" earliest=-1d@d latest=-0d@d \n| dedup idx,st,ingested_bytes,_time \n| stats sum(ingested_bytes) AS ingested_bytes by _time idx \n| eval ingested_gb = ingested_bytes/1000/1000/1000 \n| stats sum(ingested_gb) as yest_ingested_gb by idx \n| join type=outer idx \n    [| search index=_internal sourcetype=\"ingestion_usage\" earliest=-7d@d latest=-1d@d \n    | dedup idx,st,ingested_bytes,_time \n    | stats sum(ingested_bytes) AS ingested_bytes by _time idx \n    | eval ingested_gb = ingested_bytes/1000/1000/1000 \n    | stats sum(ingested_gb) as hist_ingested_gb by _time,idx \n    | stats avg(hist_ingested_gb) as hist_avg_ingested_gb perc95(hist_ingested_gb) as hist_perc95_ingested_gb by idx] \n| eventstats sum(hist_avg_ingested_gb) as hist_total_avg_ingested_gb \n| eval volume_pct_of_total = round((yest_ingested_gb/hist_total_avg_ingested_gb)*100,2) \n| eval pct_diff_from_avg = round(((yest_ingested_gb - hist_avg_ingested_gb)/hist_avg_ingested_gb)*100,2) \n| eval exceeds_p95 = if(yest_ingested_gb > hist_perc95_ingested_gb, 1, 0) \n| table idx yest_ingested_gb hist_avg_ingested_gb hist_perc95_ingested_gb pct_diff_from_avg exceeds_p95 volume_pct_of_total \n| eval status = case(\n    exceeds_p95=1 AND yest_ingested_gb>1, \"Anomalous: >95th percentile\",\n    abs(pct_diff_from_avg) > 25, \"High: >25% above avg\",\n    abs(pct_diff_from_avg) < -25, \"Low: >25% below avg\",\n    true(), \"Normal\") \n| eval severity = case(\n    yest_ingested_gb<1,\"low\",\n    volume_pct_of_total < 10, \"low\",\n    exceeds_p95=1 AND abs(pct_diff_from_avg) > 50, \"critical\",\n    abs(pct_diff_from_avg) > 50, \"high\",\n    abs(pct_diff_from_avg) > 25, \"medium\",\n    true(), \"low\") \n| table idx yest_ingested_gb hist_avg_ingested_gb hist_perc95_ingested_gb pct_diff_from_avg exceeds_p95 status severity volume_pct_of_total \n| eval sort_order=case(severity=\"critical\",0,severity=\"high\",1,severity=\"medium\",2,1==1,3)\n| sort 0 sort_order,- yest_ingested_gb \n| fields - sort_order\n| rename idx as \"Index\" \n| rename yest_ingested_gb as \"Ingested (GB) Yesterday\" \n| rename hist_avg_ingested_gb as \"Historical Avg (GB)\" \n| rename hist_perc95_ingested_gb as \"Historical 95th Percentile (GB)\" \n| rename pct_diff_from_avg as \"% Deviation\" \n| fields - exceeds_p95 \n| rename status as \"Status\" \n| rename severity as \"Severity\" \n| rename \"volume_pct_of_total\" as \"% of Total Ingest\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_ZkerxWW9": {
+			"name": "tam_fwd_data_vols",
+			"options": {
+				"query": "index=_internal source=*/splunk/metrics.log* group=tcpout_connections \n| rex field=name \"(?<name>.*?)9997\" \n| stats sum(kb) AS kb dc(name) AS indexers_receiving_data by host _time \n| eval gb_sent_to_indexers=(kb/1024)/1024 \n| sort 0 - gb_sent_to_indexers \n| bucket span=1d _time \n| stats sum(gb_sent_to_indexers) as GB by _time host \n| eval GB=round(GB, 0) \n| addcoltotals GB \n| fillnull value=\"Total\" host\n| sort - GB\n| rename host as \"Host\", GB as \"Volume (GB)\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_ajv2MSwp": {
+			"name": "tam_search_runtime_summary",
+			"options": {
+				"extend": "ds_vCSYdl88",
+				"query": "| stats dc(lessThan05Min) as lessThan05Min dc(moreThan05Min) as moreThan05Min dc(moreThan10Min) as moreThan10Min dc(moreThan15Min) as moreThan15Min dc(moreThan30Min) as moreThan30Min dc(moreThan45Min) as moreThan45Min dc(moreThan60Min) as moreThan60Min by category\n| rename lessThan05Min as \"<= 5 Min\", moreThan05Min as \"> 5 Min\", moreThan10Min as \">10 Min\", moreThan15Min as \">15 Min\", moreThan30Min as \">30 Min\", moreThan45Min as \">45 Min\", moreThan60Min as \">60 Min\", category as \"Search Type\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_bFNeQ749": {
+			"name": "tam_skipped_search_by_app",
+			"options": {
+				"extend": "ds_baseSearch1",
+				"query": "| stats count by app"
+			},
+			"type": "ds.chain"
+		},
+		"ds_bWr2d5Da": {
+			"name": "tam_fwd_tcpversion",
+			"options": {
+				"query": "index=_internal sourcetype=splunkd group=tcpin_connections (connectionType=cooked OR connectionType=cookedSSL) fwdType=* guid=* fwdType=full \n| search hostname!=\"*splunkcloud.com\" \n| eval dest_uri = host.\":\".destPort \n| stats values(fwdType) as forwarder_type, latest(version) as version, values(arch) as arch, dc(dest_uri) as dest_count, values(os) as os, max(_time) as last_connected, sum(kb) as sum_kb, sparkline(avg(tcp_KBps), 1m) as avg_tcp_kbps_sparkline, avg(tcp_KBps) as avg_tcp_kbps, avg(tcp_eps) as avg_tcp_eps by guid, hostname \n| convert ctime(last_connected) \n| eval sum_MB=round(sum_kb/1024/1024, 2) \n| fields - sum_kb\n| table guid,hostname,forwarder_type,os,arch,version,last_connected,avg_tcp_kbps_sparkline,avg_tcp_kbps,avg_tcp_eps,sum_MB\n| rename guid as \"GUID\", hostname as \"Hostname\", forwarder_type as \"Forwarder Type\",version as \"Splunk Version\",arch as \"OS Architecture\", dest_count as \"Destination Count\",os as \"OS Type\",last_connected as \"Last Connected\",avg_tcp_kbps_sparkline as \"Trending Avg TCP (kbps)\", avg_tcp_kbps as \"Avg TCP (kbps)\",avg_tcp_eps as \"Avg TCP (events/sec)\",sum_MB as \"Volume (MB)\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_ba1TywgD": {
+			"name": "tam_dq_overallissues",
+			"options": {
+				"extend": "ds_BXeLWlrU",
+				"query": "| table sourcetype,sourcetype_overall_status,sourcetype_overall_status_desc,app,total_issues,line_breaking_issues,timestamp_parsing_issues,aggregation_issues,SHOULD_LINEMERGE,LINE_BREAKER,TIME_PREFIX,MAX_TIMESTAMP_LOOKAHEAD,TIME_FORMAT,TRUNCATE,EVENT_BREAKER_ENABLE,EVENT_BREAKER \n| stats dc(sourcetype) as sourcetypes by sourcetype_overall_status_desc"
+			},
+			"type": "ds.chain"
+		},
+		"ds_baseSearch1": {
+			"name": "tam_skipped_search_base",
+			"options": {
+				"query": "index=_internal sourcetype=scheduler host=\"sh-*\" status=* \n| dedup savedsearch_name scheduled_time \n| eval {status}_count=1 \n| eventstats dc(sid) as total_jobs \n| search status=\"skipped\" \n| eval perc_skipped=100*(skipped_count/total_jobs) \n| eval window_time = if(isnotnull(window_time), window_time, 0) \n| eval execution_latency = max(dispatch_time - (scheduled_time + window_time), 0) \n| fields *\n",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_db1XCBW4": {
+			"name": "tam_skipped_search_by_type",
+			"options": {
+				"extend": "ds_baseSearch1",
+				"query": "| stats count by search_type"
+			},
+			"type": "ds.chain"
+		},
+		"ds_evMfdKtS": {
+			"name": "tam_svc_bysearchlabel",
+			"options": {
+				"extend": "ds_HuILKVMp",
+				"query": "| table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage,hourly_svc_usage,total_svc_usage\n|stats sum(svc_usage) as svc_usage by search_label"
+			},
+			"type": "ds.chain"
+		},
+		"ds_fEbmOrrE": {
+			"name": "tam_storage_ddaa_agb",
+			"options": {
+				"extend": "ds_rUyUHCyb",
+				"query": "|stats max(ddaa_license_gb) as ddaa_license_gb\n| where ddaa_license_gb>0"
+			},
+			"type": "ds.chain"
+		},
+		"ds_fs4woPWV": {
+			"name": "tam_svc_usage_index_timeline",
+			"options": {
+				"query": "index=summary source=\"splunk-ingestion\" \n| dedup keepempty=t _time idx st \n| stats sum(ingestion_gb) as ingestion_gb by _time idx \n| eventstats sum(ingestion_gb) as total_gb by _time \n| eval pct=ingestion_gb/total_gb \n| bin _time span=1h \n| join _time \n    [ search index=summary source=\"splunk-svc-consumer\" svc_consumer=\"data services\" svc_usage=* \n    | fillnull value=\"\" svc_consumer process_type search_provenances search_type search_app search_label search_user unified_sid search_modes labels search_head_names usage_source \n    | stats max(svc_usage) as utilized_svc by _time svc_consumer search_type search_app search_label search_user search_head_names unified_sid process_type \n    | bin _time span=1h \n    | stats sum(utilized_svc) as svc_usage by _time\n        ] \n| eval svc_usage=svc_usage*pct \n| timechart useother=false span=1h sum(svc_usage) by idx",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_h3TcmBu0": {
+			"name": "tam_svc_bysearchtype",
+			"options": {
+				"extend": "ds_HuILKVMp",
+				"query": "| table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage,hourly_svc_usage,total_svc_usage\n|stats sum(svc_usage) as svc_usage by search_type"
+			},
+			"type": "ds.chain"
+		},
+		"ds_h7uYqIgI": {
+			"name": "tam_ingmon_by_st",
+			"options": {
+				"query": "index=_internal sourcetype=\"ingestion_usage\" earliest=-1d@d latest=-0d@d \n| dedup idx,st,ingested_bytes,_time \n| stats sum(ingested_bytes) AS ingested_bytes by _time st \n| eval ingested_gb = ingested_bytes/1000/1000/1000 \n| stats sum(ingested_gb) as yest_ingested_gb by st \n| join type=outer st \n    [| search index=_internal sourcetype=\"ingestion_usage\" earliest=-7d@d latest=-1d@d \n    | dedup idx,st,ingested_bytes,_time \n    | stats sum(ingested_bytes) AS ingested_bytes by _time st \n    | eval ingested_gb = ingested_bytes/1000/1000/1000 \n    | stats sum(ingested_gb) as hist_ingested_gb by _time,st \n    | stats avg(hist_ingested_gb) as hist_avg_ingested_gb perc95(hist_ingested_gb) as hist_perc95_ingested_gb by st ] \n| eventstats sum(hist_avg_ingested_gb) as hist_total_avg_ingested_gb \n| eval volume_pct_of_total = round((yest_ingested_gb/hist_total_avg_ingested_gb)*100,2) \n| eval pct_diff_from_avg = round(((yest_ingested_gb - hist_avg_ingested_gb)/hist_avg_ingested_gb)*100,2) \n| eval exceeds_p95 = if(yest_ingested_gb > hist_perc95_ingested_gb, 1, 0) \n| table st yest_ingested_gb hist_avg_ingested_gb hist_perc95_ingested_gb pct_diff_from_avg exceeds_p95 volume_pct_of_total \n| eval status = case(\n    exceeds_p95=1, \"Anomalous: >95th percentile\",\n    pct_diff_from_avg > 25, \"High: >25% above avg\",\n    pct_diff_from_avg < -25, \"Low: >25% below avg\",\n    true(), \"Normal\") \n| eval severity = case(\n    yest_ingested_gb<1,\"low\",\n    volume_pct_of_total < 10, \"low\",\n    exceeds_p95=1 AND abs(pct_diff_from_avg) > 50, \"critical\",\n    abs(pct_diff_from_avg) > 50, \"high\",\n    abs(pct_diff_from_avg) > 25, \"medium\",\n    true(), \"low\") \n| table st yest_ingested_gb hist_avg_ingested_gb hist_perc95_ingested_gb pct_diff_from_avg exceeds_p95 status severity volume_pct_of_total \n| eval sort_order=case(severity=\"critical\",0,severity=\"high\",1,severity=\"medium\",2,1==1,3)\n| sort 0 sort_order,- yest_ingested_gb \n| fields - sort_order\n| rename st as \"Sourcetype\" \n| rename yest_ingested_gb as \"Ingested (GB) Yesterday\" \n| rename hist_avg_ingested_gb as \"Historical Avg (GB)\" \n| rename hist_perc95_ingested_gb as \"Historical 95th Percentile (GB)\" \n| rename pct_diff_from_avg as \"% Deviation\" \n| fields - exceeds_p95 \n| rename status as \"Status\" \n| rename severity as \"Severity\" \n| rename \"volume_pct_of_total\" as \"% of Total Ingest\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_hUaaNhBF": {
+			"name": "tam_svc_consumers_base",
+			"options": {
+				"query": "(index=_cmc_summary OR index=summary) source=\"splunk-svc-consumer\" svc_usage=*\n      | fields svc_usage svc_consumer svc_consumption_score search_type search_app search_label search_user search_head_names unified_sid process_type\n      | fillnull value=\"\" svc_consumer process_type search_provenances search_type search_app search_label search_user unified_sid search_modes labels search_head_names usage_source\n      | stats max(svc_usage) as utilized_svc by _time svc_consumer search_type search_app search_label search_user search_head_names unified_sid process_type",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_hUsjk5Nd": {
+			"name": "tam_idx_fillperc75",
+			"options": {
+				"query": "index=_internal sourcetype=splunkd OR source=*metrics.log* group=queue host=idx* \n| fields _time host name current_size_kb max_size_kb blocked \n| eval FillPercent=round((current_size_kb/max_size_kb)*100,2) \n| eval name=case(name==\"splunktcpin\", \"0 - TCP In Queue\",\n    name==\"parsingqueue\", \"1 - Parsing Queue\",\n    name==\"aggqueue\",\"2 - Aggregation Queue\",\n    name==\"typingqueue\", \"3 - Typing Queue\",\n    name==\"indexqueue\", \"4 - Indexing Queue\",\n    name==\"rulesetqueue\", \"X - Ruleset Queue\",\n    name==\"httpinputq\", \"Y - HTTPInput Queue\") \n| search FillPercent > 75 \n| timechart useother=false usenull=false limit=0 count by name",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_iR8Wnyk5": {
+			"name": "tam_search_searchtype_activity",
+			"options": {
+				"query": "index=_audit action=search sourcetype=audittrail NOT user=internal_monitoring host=\"sh-*\" \n| eval user=if((user == \"n/a\"),null(),user) \n| eval search_type=case(match(search_id,\"^\\'SummaryDirector_\"),\"summarization\",match(savedsearch_name,\"^_ACCELERATE_\"),\"acceleration\",match(search_id,\"^\\'((rt_)?scheduler__|alertsmanager_)\"),\"scheduled\",match(search_id,\".+\\d{10}\\.\\d+(_[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}\\')?\"),\"ad hoc\",true(),\"other\") \n| eval search=if((isnull(savedsearch_name) OR (savedsearch_name == \"\")),search,savedsearch_name) \n| stats min(_time) as _time, values(user) as user, values(_time) as time, values(info) as info, max(total_run_time) as total_run_time, first(search) as search, first(search_type) as search_type, first(apiStartTime) as apiStartTime, first(apiEndTime) as apiEndTime by search_id, host \n| where (isnotnull(search) AND true()) \n| stats dc(user) as count_user, dc(host) as count_host, median(total_run_time) as median_runtime, sum(total_run_time) as cum_runtime, count(search) as count, max(_time) as last_use by search_type,host \n| search search_type=\"*\" \n| eval median_runtime=if(isnotnull(median_runtime),median_runtime,\"-\") \n| eval cum_runtime=if(isnotnull(cum_runtime),cum_runtime,\"-\") \n| eval last_use=strftime(last_use,\"%m/%d/%Y %H:%M:%S %z\") \n| fields search_type, count, median_runtime, search_type, cum_runtime, last_use,host \n| eval Search_Type_Counts=((search_type + \": \") + count) \n| rename count as \"Search Count\", count_host as \"Search Head Count\", count_user as \"User Count\", cum_runtime as \"Cumulative Runtime\", host as Host, last_use as \"Last Search\", median_runtime as \"Median Runtime\", user as User \n| join max=1 overwrite=1 type=outer usetime=0 Host \n    [| search (index=_audit host=\"sh-*\" NOT user=splunk-system-user NOT user=admin) \n    | rename host as Host \n    | stats dc(user) as Users,by Host] \n| stats list(Search_Type_Counts) as Search_Type_Counts, list(\"Median Runtime\") as \"Median Runtime (sec)\", list(\"Cumulative Runtime\") as \"Cumulative Runtime (sec)\", sum(\"Search Count\") as Total_Searches, sum(\"Cumulative Runtime\") as ch by Host Users \n| table Host Users Total_Searches Search_Type_Counts \"Median Runtime (sec)\" \"Cumulative Runtime (sec)\" ch \n| convert rmunit(ch) as numSecs \n| eval stringSecs=tostring(numSecs,\"duration\") \n| eval \"Total Runtime\" = replace(stringSecs,\"(\\d+)\\:(\\d+)\\:(\\d+)\",\"\\1h \\2min \\3s\") \n| fields - stringSecs numSecs ch \n| sort - Total_Searches \n| rename Host as \"Hostname\", Users as \"# of Users\",Total_Searches as \"# of Total Searches\", Search_Type_Counts as \"# of Searches by Type\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_kZtjwtv9": {
+			"name": "tam_storage_ddas_aperc",
+			"options": {
+				"query": "(index=_cmc_summary OR index=summary) source=\"splunk-storage-summary\" \n| fields activeArchiveLicenseGB activeStorageLicenseGB rawSizeBytes rawSizeBytesCustomer rawSizeGBCustomer DDAARestoreAllowance DDAARestoreLimitGB rawSizeGBDDAARestoredTotal \n| stats latest(activeStorageLicenseGB) as activeStorageLicenseGB, max(rawSizeGBCustomer) as entitlementUsage, latest(_time) as latestTime \n| fillnull entitlementUsage \n| eval entitlement=if(activeStorageLicenseGB>0, activeStorageLicenseGB, \"N/A\") \n| eval usage=if(entitlement=\"N/A\", null(), entitlementUsage) \n| eval used_pct=usage/activeStorageLicenseGB*100 \n| fields entitlement usage used_pct latestTime",
+				"queryParameters": {
+					"earliest": "-25h@h",
+					"latest": "now"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_l4htPG0X_ds_2Q3vXdJ0": {
+			"name": "tam_idx_data_incorrect_time",
+			"options": {
+				"query": "| tstats max(_indextime) as indextime where index=* by index,sourcetype,source,_time \n| eval timediff=indextime-_time \n| eval timediff_mins=round(timediff/60,2) \n| eval timediff_hours=round(timediff/(60*60),2) \n| eval timediff_hours_abs=abs(timediff_hours) \n| where timediff_hours_abs>=1 AND index!=\"lastchanceindex\"\n| convert ctime(indextime) as indextime \n| table index,sourcetype,source,_time,indextime,timediff_hours\n| sort 0 timediff_hours",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_lCfIW06f": {
+			"name": "tam_os_mem_sh_95timechart",
+			"options": {
+				"extend": "ds_qND4VWkZ_ds_ICcZNsCQ",
+				"query": "| search host=\"sh*\"\n| timechart perc95(mem_perc_used) as \"% Memory Utilization\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_lWuZJjOB": {
+			"name": "tam_hec_base",
+			"options": {
+				"query": "index=_introspection sourcetype=http_event_collector_metrics token | fields -_raw | fields data.token_name, data.num_of_errors, data.num_of_auth_failures, data.num_of_parser_errors, data.num_of_requests_to_incorrect_url",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_loIrctsm_ds_EovnCjEC": {
+			"name": "tam_os_mem_sh_timechart",
+			"options": {
+				"extend": "ds_qND4VWkZ_ds_ICcZNsCQ",
+				"query": "| search host=\"sh-*\"\n| timechart bins=1000 max(mem_perc_used) as \"% Memory Utilization\" by host"
+			},
+			"type": "ds.chain"
+		},
+		"ds_m1QmjvhU": {
+			"name": "tam_dashboardrefresh_base",
+			"options": {
+				"query": "| rest /servicesNS/-/-/data/ui/views\n    splunk_server=local\n| search isDashboard=1 \n| rename eai:data as data \n| rename eai:acl.app as app \n| rename eai:acl.owner as owner \n| rename title as dashboard \n| table dashboard app owner data \n| search data=\"*refresh*\" NOT(owner=\"nobody\") \n| rex field=data \"\\<refresh\\>(?P<simplexml_panel_refresh_interval>[^\\<]+)\\<\\/refresh\\>\" \n| rex field=data \"refresh=\\\"(?P<simplexml_full_refresh_interval>[^\\\"]+)\\\"\" \n| rex field=data \"\\\"refresh\\\"\\:\\s\\\"(?P<dashstudio_refresh_interval>[^\\\"]+)\\\"\" \n| table app,dashboard,owner,simplexml_panel_refresh_interval,simplexml_full_refresh_interval,dashstudio_refresh_interval \n| join type=left dashboard \n    [| search (index=_cmc_summary OR index=summary) source=\"splunk-svc-search-attribution\" svc_consumer=search \n    | table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage \n    | eventstats sum(svc_usage) as total_svc_usage \n    | eventstats sum(svc_usage) as hourly_svc_usage by _time \n    | table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage,hourly_svc_usage,total_svc_usage \n    | stats sum(svc_usage) as svc_usage by search_provenances \n    | search search_provenances=\"UI:Dashboard:*\" \n    | rex field=search_provenances \"UI\\:Dashboard\\:(?P<dashboard>.*)\" \n    | table dashboard,svc_usage]\n| fillnull value=0 svc_usage\n| eval svc_usage=round(svc_usage,3)",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_mj1tKp9o": {
+			"name": "tam_os_cpu_idx_table",
+			"options": {
+				"extend": "ds_ICcZNsCQ",
+				"query": "| search host=\"idx*\" \n| timechart limit=0 useother=f span=1h max(cpu_perc_used) as \"% CPU Utilization\" by host "
+			},
+			"type": "ds.chain"
+		},
+		"ds_oM7wZOeP": {
+			"name": "tam_svc_bysearchtype_timechart",
+			"options": {
+				"extend": "ds_hUaaNhBF",
+				"query": "| eval search_type=if(search_type==\"\",\"other\",search_type) \n| eval search_type=if(isnull(search_type),\"other\",search_type) \n| search svc_consumer=\"search\" \n| timechart usenull=false span=1h sum(utilized_svc) by search_type"
+			},
+			"type": "ds.chain"
+		},
+		"ds_odOsAR5B": {
+			"name": "tam_svc_byuser",
+			"options": {
+				"extend": "ds_HuILKVMp",
+				"query": "| table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage,hourly_svc_usage,total_svc_usage\n|stats sum(svc_usage) as svc_usage by search_user"
+			},
+			"type": "ds.chain"
+		},
+		"ds_paYoEoBZ": {
+			"name": "tam_wlm_filtered_perc",
+			"options": {
+				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* (`sim_search_head_host` OR `sim_indexer_host`) \"prefilter_action=filter\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as filtered by _time] \n| bucket _time span=1h \n| table _time,searches,filtered \n| stats sum(searches) as searches, sum(filtered) as filtered by _time \n| sort _time \n| eval total=searches+filtered \n| eval perc_filtered=100*(filtered/total) \n| streamstats avg(perc_filtered) as avg_perc_filtered \n| timechart span=1h latest(avg_perc_filtered) as avg_perc_filtered \n| where isnotnull(avg_perc_filtered)\n| where avg_perc_filtered>0",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_qND4VWkZ_ds_ICcZNsCQ": {
+			"name": "tam_os_mem_base",
+			"options": {
+				"query": "| tstats max(data.mem_used) as mem_used latest(data.mem) as mem latest(sh_label) as sh_label where index::_introspection sourcetype::splunk_resource_usage component::Hostwide host=\"*splunkcloud.com\" by host _time span=60s \n| eval mem_perc_used=100*(mem_used/mem) ",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_qmAgdmoG": {
+			"name": "tam_search_activeuser_count",
+			"options": {
+				"query": "index=_audit host=\"sh-*\" NOT user=splunk-system-user NOT user=admin \n| fields user host \n| fields - _raw \n| timechart dc(user) as \"# of Active Users\" by host",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_qzCMvHRB": {
+			"name": "tam_storage_ddaa_forecast",
+			"options": {
+				"extend": "ds_rUyUHCyb",
+				"query": "| where ddaa_retention_period>0 \n| table indexName,avg_gb_storage_per_day,ddaa_retention_period,forecasted_ddaa_usage_gb,index_forecast_perc_ddaa_utilization \n| sort - forecasted_ddaa_usage_gb \n| rename indexName as \"Index\" \n| rename avg_gb_storage_per_day as \"Avg Storage/Day (GB)\", ddaa_retention_period as \"DDAA Retention Period (Days)\", forecasted_ddaa_usage_gb as \"Forecasted DDAA Usage (GB)\", index_forecast_perc_ddaa_utilization as \"Forecasted % DDAA Utilization\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_rUyUHCyb": {
+			"name": "tam_storageforecast_detail",
+			"options": {
+				"query": "| rest splunk_server=local services/cluster_blaster_indexes/sh_indexes_manager \n| rename title as indexName \n| rename archiver.coldStorageRetentionPeriod as ddaa_retention_period, frozenTimePeriodInSecs as ddas_retention_period \n| where disabled=0 \n| where totalEventCount>0 \n| eval duration_days=(maxTime-minTime)/(60*60*24) \n| convert ctime(*Time) as *Time \n| eval ddas_retention_period=ddas_retention_period/(60*60*24) \n| eval index_total_ddas_usage_gb=totalRawSizeMB/1024 \n| eval duration_days=if(duration_days>=ddas_retention_period,ddas_retention_period,duration_days) \n| eval avg_gb_storage_per_day=index_total_ddas_usage_gb/duration_days \n| table indexName,ddas_retention_period,ddaa_retention_period,duration_days,index_total_ddas_usage_gb,avg_gb_storage_per_day \n| fillnull value=0 \n| eval _time=now() \n| eval ddaa_retention_period_days=if(isnull(ddaa_retention_period),0,if(ddaa_retention_period>=ddas_retention_period,ddaa_retention_period-ddas_retention_period,0)) \n| eval forecasted_ddas_usage_gb=avg_gb_storage_per_day*ddas_retention_period \n| eval forecasted_ddaa_usage_gb=avg_gb_storage_per_day*ddaa_retention_period_days \n| appendcols \n    [| search (index=_cmc_summary OR index=summary) source=\"splunk-storage-summary\" earliest=-24h latest=now()\n    | fields activeArchiveLicenseGB activeStorageLicenseGB rawSizeBytes rawSizeBytesCustomer rawSizeGBCustomer DDAARestoreAllowance DDAARestoreLimitGB rawSizeGBDDAARestoredTotal \n    | stats latest(activeArchiveLicenseGB) as ddaa_license_gb, latest(activeStorageLicenseGB) as ddas_license_gb] \n| filldown ddaa_license_gb \n| filldown ddas_license_gb \n| eval index_forecast_perc_ddas_utilization=100*(forecasted_ddas_usage_gb/ddas_license_gb) \n| eval index_forecast_perc_ddaa_utilization=100*(forecasted_ddaa_usage_gb/ddaa_license_gb) \n| eventstats sum(forecasted_ddas_usage_gb) as total_forecasted_ddas_usage_gb sum(forecasted_ddaa_usage_gb) as total_forecasted_ddaa_usage_gb \n| eval total_forecast_perc_ddas_utilization=100*(total_forecasted_ddas_usage_gb/ddas_license_gb) \n| eval total_forecast_perc_ddaa_utilization=100*(total_forecasted_ddaa_usage_gb/ddaa_license_gb) \n| table _time,indexName,avg_gb_storage_per_day,duration_days,ddas_retention_period,forecasted_ddas_usage_gb,ddas_license_gb,index_forecast_perc_ddas_utilization,ddaa_retention_period,forecasted_ddaa_usage_gb,ddaa_license_gb,index_forecast_perc_ddaa_utilization,total_forecasted_ddas_usage_gb,total_forecast_perc_ddas_utilization,total_forecasted_ddaa_usage_gb,total_forecast_perc_ddaa_utilization ",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_rX3UZs9b": {
+			"name": "tam_fwd_fwdidxthru",
+			"options": {
+				"query": "index=_internal host=\"idx*\" group=thruput \n| fields - _raw \n| fields kb _time \n| timechart span=5m sum(kb) as IDXKB \n| eval idx_kbps=IDXKB/60 \n| fields - IDXKB \n| appendcols \n    [ search index=_internal group=thruput name=thruput source=\"/opt/splunk/var/log/splunk/metrics.log\" \n    | fields - _raw \n    | fields kb _time \n    | timechart span=5m sum(kb) as KB \n    | eval hf_kbps=KB/60 \n    | fields - KB ]",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_sCWEnNjc_ds_GAu0uDqP_ds_PUSQRoh8": {
+			"name": "tam_dbrefresh_simplexmlfull_table",
+			"options": {
+				"extend": "ds_m1QmjvhU",
+				"query": "| table app,dashboard,owner,simplexml_full_refresh_interval,svc_usage\n| sort - svc_usage\n|search simplexml_full_refresh_interval!=\"\"\n|rename simplexml_full_refresh_interval as \"refresh_interval\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_siEjl2i4": {
+			"name": "tam_storage_ddas_agb",
+			"options": {
+				"extend": "ds_rUyUHCyb",
+				"query": "|stats max(ddas_license_gb) as ddas_license_gb"
+			},
+			"type": "ds.chain"
+		},
+		"ds_t3ZQREra": {
+			"name": "tam_svc_byapp",
+			"options": {
+				"extend": "ds_HuILKVMp",
+				"query": "| table _time,role,search_app,search_head_names,search_label,search_modes,search_provenances,search_type,search_user,svc_usage,hourly_svc_usage,total_svc_usage\n|stats sum(svc_usage) as svc_usage by search_app"
+			},
+			"type": "ds.chain"
+		},
+		"ds_uDkODl0q": {
+			"name": "tam_dc_conn_base",
+			"options": {
+				"query": "(index=_internal sourcetype=splunkd group=tcpin_connections (connectionType=cooked OR connectionType=cookedSSL) fwdType=uf guid=*) \n| fields _time hostname, guid, version, arch, os \n| fields - _raw \n| eval hostname=upper(hostname) \n| bin span=1h _time \n| stats latest(version) as version, values(arch) as arch, values(os) as os, max(_time) as last_connected, by _time guid, hostname \n| eval last_connected=strftime(last_connected,\"%m/%d/%Y %I:%M:%S %p\") \n| fillnull value=\"N/A\" ",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_vCSYdl88": {
+			"name": "tam_search_runtime_analysis_base",
+			"options": {
+				"query": "index=_audit sourcetype=audittrail action=search info=completed total_run_time=* host=\"sh-*\"\n| where NOT match(search,\"^\\s*(\\|\\s*rest|\\s*mcatalog|\\s*summarize|\\|\\s*inputlookup|\\|\\s*dbinspect|\\|\\s*makeresults|\\s*typeahead)\") AND NOT match(search,\"^\\| metadata type=sourcetypes \\| search totalCount \\> 0\") \n| eval category=case(like(provenance,\"%Dashboard%\"),\"Dashboard\",provenance=\"scheduler\",\"Scheduled Search\",1==1,\"Ad-Hoc\") \n| eval sid=search_id \n| eval runDuration=total_run_time \n| table sid,app,provenance,savedsearch_name,category,runDuration \n| eval lessThan05Min=if(runDuration<=300,sid,null) \n| eval moreThan05Min=if(runDuration>300,sid,null) \n| eval moreThan10Min=if(runDuration>600,sid,null) \n| eval moreThan15Min=if(runDuration>900,sid,null) \n| eval moreThan30Min=if(runDuration>1800,sid,null) \n| eval moreThan45Min=if(runDuration>2700,sid,null) \n| eval moreThan60Min=if(runDuration>3600,sid,null)",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_vYf5BLbO": {
+			"name": "tam_os_cpu_idx_95timechart",
+			"options": {
+				"extend": "ds_ICcZNsCQ",
+				"query": "| search host=\"idx*\"\n| timechart perc95(cpu_perc_used) as \"% CPU Utilization\""
+			},
+			"type": "ds.chain"
+		},
+		"ds_wMczmFlB_ds_KcOCyxDy": {
+			"name": "tam_search_delayed_jobs_detail",
+			"options": {
+				"query": "index=_internal sourcetype=scheduler app=* scheduled_time=* savedsearch_name=\"*\" host=\"sh-*\"\n| eval time=strftime(_time,\"%Y-%m-%d %H:%M:%S\") \n| eval delay_in_start = (dispatch_time - scheduled_time) \n| eval scheduled_time=strftime(scheduled_time,\"%Y-%m-%d %H:%M:%S\") \n| eval dispatch_time=strftime(dispatch_time,\"%Y-%m-%d %H:%M:%S\") \n| fillnull value=\"0\" delay_in_start \n| search delay_in_start!=\"0\" \n| eventstats count as total\n| eval perc_delayed=100*(delay_in_start/total)\n| stats dc(sid) as count by savedsearch_name\n| sort - count\n| rename savedsearch_name as \"SavedSearch Name\"\n| rename count as \"# Delayed Searches\"",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_wil5aSpY": {
+			"name": "tam_total_skipped_searches",
+			"options": {
+				"extend": "ds_baseSearch1",
+				"query": "| stats max(perc_skipped) as \"% Skipped Searches\"\n"
+			},
+			"type": "ds.chain"
+		},
+		"ds_xFKcWHuH": {
+			"name": "tam_dq_overallstatus",
+			"options": {
+				"extend": "ds_BXeLWlrU",
+				"query": "| table sourcetype,sourcetype_overall_status,sourcetype_overall_status_desc,app,total_issues,line_breaking_issues,timestamp_parsing_issues,aggregation_issues,SHOULD_LINEMERGE,LINE_BREAKER,TIME_PREFIX,MAX_TIMESTAMP_LOOKAHEAD,TIME_FORMAT,TRUNCATE,EVENT_BREAKER_ENABLE,EVENT_BREAKER \n| stats dc(sourcetype) as sourcetypes by sourcetype_overall_status"
+			},
+			"type": "ds.chain"
+		},
+		"ds_xWfnYQ5H": {
+			"name": "tam_svc_usage_st_timeline",
+			"options": {
+				"query": "index=summary source=\"splunk-ingestion\" \n| dedup keepempty=t _time idx st \n| stats sum(ingestion_gb) as ingestion_gb by _time st \n| eventstats sum(ingestion_gb) as total_gb by _time \n| eval pct=ingestion_gb/total_gb \n| bin _time span=1h \n| join _time \n    [ search index=summary source=\"splunk-svc-consumer\" svc_consumer=\"data services\" svc_usage=* \n    | fillnull value=\"\" svc_consumer process_type search_provenances search_type search_app search_label search_user unified_sid search_modes labels search_head_names usage_source \n    | stats max(svc_usage) as utilized_svc by _time svc_consumer search_type search_app search_label search_user search_head_names unified_sid process_type \n    | bin _time span=1h \n    | stats sum(utilized_svc) as svc_usage by _time\n        ] \n| eval svc_usage=svc_usage*pct \n| where svc_usage>0\n| timechart usenull=false useother=false span=1h sum(svc_usage) by st",
+				"queryParameters": {
+					"earliest": "$sel_time_tok.earliest$",
+					"latest": "$sel_time_tok.latest$"
+				}
+			},
+			"type": "ds.search"
+		},
+		"ds_yXlLcz7H_ds_GAu0uDqP_ds_PUSQRoh8": {
+			"name": "tam_dbrefresh_dbs_count",
+			"options": {
+				"extend": "ds_m1QmjvhU",
+				"query": "| table app,dashboard,owner,simplexml_panel_refresh_interval,simplexml_full_refresh_interval,dashstudio_refresh_interval \n| search dashstudio_refresh_interval!=\"\"\n| stats dc(dashboard) as dashboards\n| where dashboards>0"
+			},
+			"type": "ds.chain"
+		},
+		"ds_z0pN8fTh": {
+			"name": "tam_search_runtime_details",
+			"options": {
+				"extend": "ds_vCSYdl88",
+				"query": "| table sid,app,provenance,savedsearch_name,category,runDuration \n| eval runDurationMins=runDuration/60\n| sort - runDuration\n| fields - runDuration\n| rename sid as \"Session ID (SID)\", app as \"App\",provenance as \"Provenance\",savedsearch_name as \"Saved Search\", category as \"Category\", runDurationMins as \"Run Duration (min)\" "
+			},
+			"type": "ds.chain"
+		},
+		"ds_zx3qXODe_ds_PUSQRoh8": {
+			"name": "tam_dbrefresh_simplexmlpanel_table",
+			"options": {
+				"extend": "ds_m1QmjvhU",
+				"query": "| table app,dashboard,owner,simplexml_panel_refresh_interval,svc_usage\n| sort - svc_usage\n|search simplexml_panel_refresh_interval!=\"\"\n|rename simplexml_panel_refresh_interval as \"refresh_interval\"\n| fillnull value=0 svc_usage"
+			},
+			"type": "ds.chain"
+		}
+	},
+	"layout": {
+		"globalInputs": [
+			"input_mYn3fd5n"
+		],
+		"layoutDefinitions": {
+			"layout_1": {
+				"options": {
+					"height": 750,
+					"width": 1440
+				},
+				"structure": [
+					{
+						"item": "viz_Nh9WKGTF",
+						"position": {
+							"h": 400,
+							"w": 1440,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_Do9mv8qz",
+						"position": {
+							"h": 400,
+							"w": 1440,
+							"x": 0,
+							"y": 400
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_RbBPgaGs",
+						"position": {
+							"h": 250,
+							"w": 720,
+							"x": 0,
+							"y": 800
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_8xq0i2qZ",
+						"position": {
+							"h": 250,
+							"w": 720,
+							"x": 0,
+							"y": 1050
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_iHcb2c5L",
+						"position": {
+							"h": 582,
+							"w": 1440,
+							"x": 0,
+							"y": 1300
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_zVCO1R9b",
+						"position": {
+							"h": 400,
+							"w": 1440,
+							"x": 0,
+							"y": 1882
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_HsmQDTlA",
+						"position": {
+							"h": 400,
+							"w": 1440,
+							"x": 0,
+							"y": 2282
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_W440EdEP",
+						"position": {
+							"h": 489,
+							"w": 1440,
+							"x": 0,
+							"y": 2682
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_6CbUF4nK",
+						"position": {
+							"h": 250,
+							"w": 720,
+							"x": 720,
+							"y": 800
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_eoTCI8rR",
+						"position": {
+							"h": 250,
+							"w": 720,
+							"x": 720,
+							"y": 1050
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_FMGYOsNA",
+						"position": {
+							"h": 373,
+							"w": 720,
+							"x": 0,
+							"y": 3171
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_vl0xMnFe",
+						"position": {
+							"h": 373,
+							"w": 720,
+							"x": 720,
+							"y": 3171
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			},
+			"layout_34YlFzXv": {
+				"structure": [
+					{
+						"item": "viz_07ZfDqC2",
+						"position": {
+							"h": 163,
+							"w": 316,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_qGTP2gXS",
+						"position": {
+							"h": 318,
+							"w": 1200,
+							"x": 0,
+							"y": 163
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_RSVoP6Hf",
+						"position": {
+							"h": 166,
+							"w": 316,
+							"x": 0,
+							"y": 481
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_1e8IEmns",
+						"position": {
+							"h": 345,
+							"w": 1200,
+							"x": 0,
+							"y": 647
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_cIwFphrY",
+						"position": {
+							"h": 166,
+							"w": 284,
+							"x": 316,
+							"y": 481
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_hkl3QUau",
+						"position": {
+							"h": 163,
+							"w": 284,
+							"x": 316,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_uwTVbAA9",
+						"position": {
+							"h": 166,
+							"w": 300,
+							"x": 600,
+							"y": 481
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_dtdRia5y",
+						"position": {
+							"h": 163,
+							"w": 300,
+							"x": 600,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_6Ia1VfBd",
+						"position": {
+							"h": 166,
+							"w": 300,
+							"x": 900,
+							"y": 481
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_MqAga7DC",
+						"position": {
+							"h": 163,
+							"w": 300,
+							"x": 900,
+							"y": 0
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			},
+			"layout_AuTiHIIg": {
+				"structure": [
+					{
+						"item": "viz_vNkcJBeG",
+						"position": {
+							"h": 400,
+							"w": 400,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_h7iCDqvc",
+						"position": {
+							"h": 400,
+							"w": 400,
+							"x": 0,
+							"y": 400
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_UGviqIFh",
+						"position": {
+							"h": 562,
+							"w": 1200,
+							"x": 0,
+							"y": 800
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_I79chJA6",
+						"position": {
+							"h": 400,
+							"w": 586,
+							"x": 0,
+							"y": 1362
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_z9LOlEPt",
+						"position": {
+							"h": 400,
+							"w": 1200,
+							"x": 0,
+							"y": 1762
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_CeQy07H5",
+						"position": {
+							"h": 487,
+							"w": 586,
+							"x": 0,
+							"y": 2162
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_Wa42Y7kv",
+						"position": {
+							"h": 400,
+							"w": 400,
+							"x": 400,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_W8HBAsgJ",
+						"position": {
+							"h": 400,
+							"w": 400,
+							"x": 400,
+							"y": 400
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_u8g39gEk",
+						"position": {
+							"h": 400,
+							"w": 614,
+							"x": 586,
+							"y": 1362
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_jinBxwRC",
+						"position": {
+							"h": 487,
+							"w": 614,
+							"x": 586,
+							"y": 2162
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_iTdUdr3J",
+						"position": {
+							"h": 400,
+							"w": 400,
+							"x": 800,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_tgur8iFA",
+						"position": {
+							"h": 400,
+							"w": 400,
+							"x": 800,
+							"y": 400
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			},
+			"layout_Hs5hLyyf": {
+				"structure": [
+					{
+						"item": "viz_7PMXkN5n",
+						"position": {
+							"h": 573,
+							"w": 1200,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_rLJUw5mS",
+						"position": {
+							"h": 302,
+							"w": 296,
+							"x": 0,
+							"y": 573
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_qqHimndM",
+						"position": {
+							"h": 400,
+							"w": 600,
+							"x": 0,
+							"y": 875
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_5qNospHP",
+						"position": {
+							"h": 393,
+							"w": 1200,
+							"x": 0,
+							"y": 1275
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_bhY6RpKG",
+						"position": {
+							"h": 394,
+							"w": 1200,
+							"x": 0,
+							"y": 1668
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_58EajvXq",
+						"position": {
+							"h": 400,
+							"w": 323,
+							"x": 0,
+							"y": 2062
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_UYMAAz1w",
+						"position": {
+							"h": 375,
+							"w": 600,
+							"x": 0,
+							"y": 2462
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_kUADdMRQ",
+						"position": {
+							"h": 302,
+							"w": 452,
+							"x": 296,
+							"y": 573
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_3iEsNXVf",
+						"position": {
+							"h": 400,
+							"w": 322,
+							"x": 323,
+							"y": 2062
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_sGH5t36N",
+						"position": {
+							"h": 400,
+							"w": 600,
+							"x": 600,
+							"y": 875
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_cSpsH8zx",
+						"position": {
+							"h": 375,
+							"w": 600,
+							"x": 600,
+							"y": 2462
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_qrf8bduA",
+						"position": {
+							"h": 400,
+							"w": 293,
+							"x": 645,
+							"y": 2062
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_a345S8MR",
+						"position": {
+							"h": 302,
+							"w": 452,
+							"x": 748,
+							"y": 573
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_JG1zRx5i",
+						"position": {
+							"h": 400,
+							"w": 262,
+							"x": 938,
+							"y": 2062
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			},
+			"layout_IGIyc4oW": {
+				"structure": [
+					{
+						"item": "viz_ruLWRfNI",
+						"position": {
+							"h": 220,
+							"w": 1200,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_5ldlyKq1",
+						"position": {
+							"h": 400,
+							"w": 1200,
+							"x": 0,
+							"y": 220
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_nKgxuH6u",
+						"position": {
+							"h": 400,
+							"w": 1200,
+							"x": 0,
+							"y": 620
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_CGXK5sL7",
+						"position": {
+							"h": 400,
+							"w": 1200,
+							"x": 0,
+							"y": 1020
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_idmGOsQz",
+						"position": {
+							"h": 400,
+							"w": 600,
+							"x": 0,
+							"y": 1420
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_QBqISOAK",
+						"position": {
+							"h": 571,
+							"w": 1200,
+							"x": 0,
+							"y": 1820
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_JvY7nbhT",
+						"position": {
+							"h": 400,
+							"w": 600,
+							"x": 600,
+							"y": 1420
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			},
+			"layout_YPQsh9iX": {
+				"structure": [
+					{
+						"item": "viz_Io4IFQsK",
+						"position": {
+							"h": 193,
+							"w": 300,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_GgY1zzwE",
+						"position": {
+							"h": 197,
+							"w": 300,
+							"x": 0,
+							"y": 193
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_lhDZzGNu",
+						"position": {
+							"h": 532,
+							"w": 600,
+							"x": 0,
+							"y": 390
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_SlSWimtI",
+						"position": {
+							"h": 193,
+							"w": 300,
+							"x": 300,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_0Ef6FKRS",
+						"position": {
+							"h": 197,
+							"w": 300,
+							"x": 300,
+							"y": 193
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_0ZaSBFD2",
+						"position": {
+							"h": 193,
+							"w": 300,
+							"x": 600,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_v9POkuWo",
+						"position": {
+							"h": 197,
+							"w": 300,
+							"x": 600,
+							"y": 193
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_UMj1csKW",
+						"position": {
+							"h": 532,
+							"w": 600,
+							"x": 600,
+							"y": 390
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_CUpwmnxO",
+						"position": {
+							"h": 193,
+							"w": 300,
+							"x": 900,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_7E0FIaGE",
+						"position": {
+							"h": 197,
+							"w": 300,
+							"x": 900,
+							"y": 193
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			},
+			"layout_eVEpg5pp": {
+				"structure": [
+					{
+						"item": "viz_5Na7BVvW",
+						"position": {
+							"h": 172,
+							"w": 394,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_dNOxMjp6",
+						"position": {
+							"h": 838,
+							"w": 394,
+							"x": 0,
+							"y": 172
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_lmG4uXtA",
+						"position": {
+							"h": 172,
+							"w": 388,
+							"x": 394,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_9YhkLoQ7",
+						"position": {
+							"h": 838,
+							"w": 388,
+							"x": 394,
+							"y": 172
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_5FrQhBF6",
+						"position": {
+							"h": 172,
+							"w": 418,
+							"x": 782,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_1zxmr8Dp",
+						"position": {
+							"h": 838,
+							"w": 418,
+							"x": 782,
+							"y": 172
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			},
+			"layout_fz6F7Rwr": {
+				"structure": [
+					{
+						"item": "viz_qfvifn9t",
+						"position": {
+							"h": 400,
+							"w": 600,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_9y8djFdK",
+						"position": {
+							"h": 506,
+							"w": 1200,
+							"x": 0,
+							"y": 400
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_79XD6kkV",
+						"position": {
+							"h": 699,
+							"w": 1200,
+							"x": 0,
+							"y": 906
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_aqXPUhUR",
+						"position": {
+							"h": 400,
+							"w": 600,
+							"x": 600,
+							"y": 0
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			},
+			"layout_fziUmOwX": {
+				"structure": [
+					{
+						"item": "viz_E5jOMvND",
+						"position": {
+							"h": 288,
+							"w": 600,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_Dvq7UcbN",
+						"position": {
+							"h": 288,
+							"w": 600,
+							"x": 0,
+							"y": 288
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_JNeQHhkp",
+						"position": {
+							"h": 333,
+							"w": 600,
+							"x": 0,
+							"y": 576
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_nL4Oq1C3",
+						"position": {
+							"h": 354,
+							"w": 600,
+							"x": 0,
+							"y": 909
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_1OJyfspJ",
+						"position": {
+							"h": 400,
+							"w": 1200,
+							"x": 0,
+							"y": 1263
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_mRcr8EjZ",
+						"position": {
+							"h": 288,
+							"w": 600,
+							"x": 600,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_RtO0yqH5",
+						"position": {
+							"h": 288,
+							"w": 600,
+							"x": 600,
+							"y": 288
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_6H75B5uE",
+						"position": {
+							"h": 333,
+							"w": 600,
+							"x": 600,
+							"y": 576
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_PfSUKxIJ",
+						"position": {
+							"h": 354,
+							"w": 600,
+							"x": 600,
+							"y": 909
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			},
+			"layout_qlOFSWoT": {
+				"structure": [
+					{
+						"item": "viz_B6LR4oJQ",
+						"position": {
+							"h": 254,
+							"w": 447,
+							"x": 0,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_hTaW06Gt",
+						"position": {
+							"h": 234,
+							"w": 1200,
+							"x": 0,
+							"y": 254
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_8TO7rkxP",
+						"position": {
+							"h": 559,
+							"w": 1200,
+							"x": 0,
+							"y": 488
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_4hqjGnr5",
+						"position": {
+							"h": 254,
+							"w": 395,
+							"x": 447,
+							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_yptITt3J",
+						"position": {
+							"h": 254,
+							"w": 358,
+							"x": 842,
+							"y": 0
+						},
+						"type": "block"
+					}
+				],
+				"type": "grid"
+			}
+		},
+		"options": {
+			"submitButton": false
+		},
+		"tabs": {
+			"items": [
+				{
+					"label": "Ingestion Monitoring",
+					"layoutId": "layout_34YlFzXv"
+				},
+				{
+					"label": "System Performance",
+					"layoutId": "layout_fziUmOwX"
+				},
+				{
+					"label": "Forwarding Performance",
+					"layoutId": "layout_Hs5hLyyf"
+				},
+				{
+					"label": "Indexing Performance",
+					"layoutId": "layout_IGIyc4oW"
+				},
+				{
+					"label": "Storage Forecaster",
+					"layoutId": "layout_YPQsh9iX"
+				},
+				{
+					"label": "Data Quality",
+					"layoutId": "layout_fz6F7Rwr"
+				},
+				{
+					"label": "Search Performance",
+					"layoutId": "layout_1"
+				},
+				{
+					"label": "Workload Monitoring",
+					"layoutId": "layout_qlOFSWoT"
+				},
+				{
+					"label": "Dashboard Refreshes",
+					"layoutId": "layout_eVEpg5pp"
+				},
+				{
+					"label": "SVC Performance",
+					"layoutId": "layout_AuTiHIIg"
+				}
+			]
+		}
+	}
+}
+    ]]></definition>
+</dashboard>
