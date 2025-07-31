@@ -468,7 +468,12 @@
 				}
 			},
 			"title": "(HF/IF) Forwarder Avg TCP & Splunk Version",
-			"type": "splunk.table"
+			"type": "splunk.table",
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			}
 		},
 		"viz_6CbUF4nK": {
 			"containerOptions": {
@@ -763,9 +768,7 @@
 					"Degraded Utilization Threshold",
 					"License Limit"
 				],
-				"stackMode": "stacked",
-				"y": "> primary | frameBySeriesNames('akamaiweb','app_apigw','app_ma_paloalto','aws_edge_services','aws_ef_showcase_eda','aws_eventbroker','azure_vmss_audit','dy_aws_audit_prod','mc_aws_audit_prodorg','sm_aws_audit_prod','_span')",
-				"y2": "> primary | frameBySeriesNames('aks_pltfrm_test','api_aks_app','epintel','genesys','nix_audit','omni_aks_app','palo_alto_sase','uberagent','wineventlog','winpoc1_test','_span')"
+				"stackMode": "stacked"
 			},
 			"title": "SVC usage by Index",
 			"type": "splunk.column"
@@ -853,7 +856,12 @@
 				}
 			},
 			"title": "Redundant Seaches",
-			"type": "splunk.table"
+			"type": "splunk.table",
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			}
 		},
 		"viz_Dvq7UcbN": {
 			"containerOptions": {},
@@ -1058,7 +1066,12 @@
 				"primary": "ds_hUsjk5Nd"
 			},
 			"title": "Indexing Queue - # of Fill Percent > 75%",
-			"type": "splunk.area"
+			"type": "splunk.area",
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			}
 		},
 		"viz_L076bg9n": {
 			"containerOptions": {
@@ -2004,12 +2017,14 @@
 			"type": "splunk.pie"
 		},
 		"viz_qqHimndM": {
-			"containerOptions": {},
-			"context": {},
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
 			"dataSources": {
 				"primary": "ds_KtmnP7Kr"
 			},
-			"options": {},
 			"showLastUpdated": false,
 			"showProgressBar": false,
 			"title": "Deployment Clients by Splunk Version",
@@ -2047,7 +2062,11 @@
 			"type": "splunk.singlevalue"
 		},
 		"viz_sGH5t36N": {
-			"containerOptions": {},
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
 			"dataSources": {
 				"primary": "ds_ByL5VTM4"
 			},
@@ -2351,7 +2370,7 @@
 		"ds_8oG11wYA": {
 			"name": "tam_wlm_abort_perc",
 			"options": {
-				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* (`sim_search_head_host` OR `sim_indexer_host`) wlm_action = \"abort\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as aborted by _time] \n| bucket _time span=1h \n| table _time,searches,aborted \n| stats sum(searches) as searches, sum(aborted) as aborted by _time \n| sort _time \n| eval total=searches+aborted \n| eval perc_aborted=100*(aborted/total) \n| streamstats avg(perc_aborted) as avg_perc_aborted \n| timechart span=1h latest(avg_perc_aborted) as avg_perc_aborted \n| where isnotnull(avg_perc_aborted)\n| where avg_perc_aborted>0",
+				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* wlm_action = \"abort\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as aborted by _time] \n| bucket _time span=1h \n| table _time,searches,aborted \n| stats sum(searches) as searches, sum(aborted) as aborted by _time \n| sort _time \n| eval total=searches+aborted \n| eval perc_aborted=100*(aborted/total) \n| streamstats avg(perc_aborted) as avg_perc_aborted \n| timechart span=1h latest(avg_perc_aborted) as avg_perc_aborted \n| where isnotnull(avg_perc_aborted)\n| where avg_perc_aborted>0",
 				"queryParameters": {
 					"earliest": "$sel_time_tok.earliest$",
 					"latest": "$sel_time_tok.latest$"
@@ -2421,7 +2440,7 @@
 		"ds_CA7fBbjo": {
 			"name": "tam_idx_count",
 			"options": {
-				"query": "| btool app list launcher --local splunk_server=i*\n| stats count",
+				"query": "| rest /services/search/distributed/peers splunk_server=local \n| table peerName serverName status version build hostname lastConnectTime \n| search peerName=\"idx*\"\n|stats dc(peerName) as indexers",
 				"queryParameters": {
 					"earliest": "$sel_time_tok.earliest$",
 					"latest": "$sel_time_tok.latest$"
@@ -2595,7 +2614,7 @@
 		"ds_N0L5C9Pj": {
 			"name": "tam_wlm_reclassified_perc",
 			"options": {
-				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* (`sim_search_head_host` OR `sim_indexer_host`) wlm_action = \"move\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as reclassified by _time] \n| bucket _time span=1h \n| table _time,searches,reclassified \n| stats sum(searches) as searches, sum(reclassified) as reclassified by _time \n| sort _time \n| eval total=searches+reclassified \n| eval perc_reclassified=100*(reclassified/total) \n| streamstats avg(perc_reclassified) as avg_perc_reclassified \n| timechart span=1h latest(avg_perc_reclassified) as avg_perc_reclassified \n| where isnotnull(avg_perc_reclassified)\n| where avg_perc_reclassified>0",
+				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* wlm_action = \"move\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as reclassified by _time] \n| bucket _time span=1h \n| table _time,searches,reclassified \n| stats sum(searches) as searches, sum(reclassified) as reclassified by _time \n| sort _time \n| eval total=searches+reclassified \n| eval perc_reclassified=100*(reclassified/total) \n| streamstats avg(perc_reclassified) as avg_perc_reclassified \n| timechart span=1h latest(avg_perc_reclassified) as avg_perc_reclassified \n| where isnotnull(avg_perc_reclassified)\n| where avg_perc_reclassified>0",
 				"queryParameters": {
 					"earliest": "$sel_time_tok.earliest$",
 					"latest": "$sel_time_tok.latest$"
@@ -2970,7 +2989,7 @@
 		"ds_paYoEoBZ": {
 			"name": "tam_wlm_filtered_perc",
 			"options": {
-				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* (`sim_search_head_host` OR `sim_indexer_host`) \"prefilter_action=filter\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as filtered by _time] \n| bucket _time span=1h \n| table _time,searches,filtered \n| stats sum(searches) as searches, sum(filtered) as filtered by _time \n| sort _time \n| eval total=searches+filtered \n| eval perc_filtered=100*(filtered/total) \n| streamstats avg(perc_filtered) as avg_perc_filtered \n| timechart span=1h latest(avg_perc_filtered) as avg_perc_filtered \n| where isnotnull(avg_perc_filtered)\n| where avg_perc_filtered>0",
+				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* \"prefilter_action=filter\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as filtered by _time] \n| bucket _time span=1h \n| table _time,searches,filtered \n| stats sum(searches) as searches, sum(filtered) as filtered by _time \n| sort _time \n| eval total=searches+filtered \n| eval perc_filtered=100*(filtered/total) \n| streamstats avg(perc_filtered) as avg_perc_filtered \n| timechart span=1h latest(avg_perc_filtered) as avg_perc_filtered \n| where isnotnull(avg_perc_filtered)\n| where avg_perc_filtered>0",
 				"queryParameters": {
 					"earliest": "$sel_time_tok.earliest$",
 					"latest": "$sel_time_tok.latest$"
