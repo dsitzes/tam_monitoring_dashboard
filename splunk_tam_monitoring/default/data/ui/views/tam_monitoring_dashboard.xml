@@ -531,8 +531,9 @@
 			"dataSources": {
 				"primary": "ds_FXSMUGAz"
 			},
-			"title": "Props",
-			"type": "splunk.table"
+			"title": "Props (Select a Sourcetype To View)",
+			"type": "splunk.table",
+			"description": "Great 8 Props"
 		},
 		"viz_7E0FIaGE": {
 			"containerOptions": {
@@ -764,7 +765,7 @@
 				],
 				"stackMode": "stacked",
 				"y": "> primary | frameBySeriesNames('akamaiweb','app_apigw','app_ma_paloalto','aws_edge_services','aws_ef_showcase_eda','aws_eventbroker','azure_vmss_audit','dy_aws_audit_prod','mc_aws_audit_prodorg','sm_aws_audit_prod','_span')",
-				"y2": "> primary | frameBySeriesNames('corecard_cloud_pod2_perf','corecard_cloud_pod2_prod','corecard_cloud_pod3_prod','corecard_cloud_pod3_uat2','corecard_cloud_pod4_prod','corecard_pod1_gsperf','corecard_pod1_gsprod_syslog','corecard_pod1_gsqa','corecard_pod1_prod','netfw','_span')"
+				"y2": "> primary | frameBySeriesNames('aks_pltfrm_test','api_aks_app','epintel','genesys','nix_audit','omni_aks_app','palo_alto_sase','uberagent','wineventlog','winpoc1_test','_span')"
 			},
 			"title": "SVC usage by Index",
 			"type": "splunk.column"
@@ -876,6 +877,49 @@
 			"showProgressBar": false,
 			"title": "95th Percentile SH % CPU Utilization",
 			"type": "splunk.line"
+		},
+		"viz_ESqfnWoq": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 80,
+						"value": "#118832"
+					},
+					{
+						"from": 80,
+						"to": 90,
+						"value": "#9D9F0D"
+					},
+					{
+						"from": 90,
+						"to": 100,
+						"value": "#D97A0D"
+					},
+					{
+						"from": 100,
+						"value": "#D41F1F"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_pIuRDk6k_ds_D2U0W01v"
+			},
+			"options": {
+				"legendDisplay": "off",
+				"overlayFields": [],
+				"seriesColorsByField": {},
+				"xAxisTitleVisibility": "hide",
+				"yAxisTitleVisibility": "hide"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Forecasted DDAS License % Utilization",
+			"type": "splunk.column"
 		},
 		"viz_FMGYOsNA": {
 			"dataSources": {
@@ -1015,6 +1059,47 @@
 			},
 			"title": "Indexing Queue - # of Fill Percent > 75%",
 			"type": "splunk.area"
+		},
+		"viz_L076bg9n": {
+			"containerOptions": {
+				"visibility": {
+					"hideWhenNoData": true
+				}
+			},
+			"context": {
+				"backgroundColorEditorConfig": [
+					{
+						"to": 80,
+						"value": "#118832"
+					},
+					{
+						"from": 80,
+						"to": 90,
+						"value": "#9D9F0D"
+					},
+					{
+						"from": 90,
+						"to": 100,
+						"value": "#D97A0D"
+					},
+					{
+						"from": 100,
+						"value": "#D41F1F"
+					}
+				]
+			},
+			"dataSources": {
+				"primary": "ds_z78JjFfb_ds_Ef3T5rpa"
+			},
+			"options": {
+				"legendDisplay": "off",
+				"xAxisTitleVisibility": "hide",
+				"yAxisTitleVisibility": "hide"
+			},
+			"showLastUpdated": false,
+			"showProgressBar": false,
+			"title": "Forecasted DDAA License % Utilization",
+			"type": "splunk.column"
 		},
 		"viz_MqAga7DC": {
 			"containerOptions": {
@@ -2225,6 +2310,14 @@
 			},
 			"type": "ds.search"
 		},
+		"ds_79O1dZSK": {
+			"name": "tam_storage_fperc_detailed_future",
+			"options": {
+				"extend": "ds_rUyUHCyb",
+				"query": "| join type=left indexName \n    [ search (index=_cmc_summary OR index=summary) source=\"splunk-storage-detail\" earliest=-25h latest=now() \n    | fillnull rawSizeGB value=0 \n    | eval ddas_usage_gb=round(rawSizeBytes/1024/1024/1024,2) \n    | rename idxName as indexName \n    | table indexName,ddas_usage_gb] \n| join type=left indexName \n    [ search (index=_cmc_summary OR index=summary) source=\"splunk-ddaa-detail\" earliest=-25h latest=now() \n    | eval ddaa_usage_gb=round(archiveUsage,2) \n    | table indexName,ddaa_usage_gb] \n| eventstats max(ddaa_retention_period) as project_days \n| map maxsearches=365 search=\"|makeresults count=365\n    | eval indexName=\\\"$$indexName$$\\\" \n    | eval avg_gb_storage_per_day=$$avg_gb_storage_per_day$$ \n    | eval project_days=$$project_days$$ \n    | eval start=relative_time(now(),\\\"-0d@d\\\")\n    | eval ddas_license_gb=$$ddas_license_gb$$\n    | eval ddaa_license_gb=$ddaa_license_gb$$\n    | eval current_ddas_gb=$$ddas_usage_gb$$\n    | eval current_ddaa_gb=$$ddaa_usage_gb$$\n    | streamstats count as day \n    | eval _time=start + (86400 * (day - 1)) \n    | where day <= 90 \n    | eval forecasted_ddas_gb=current_ddas_gb + (avg_gb_storage_per_day * day) \n    | eval forecasted_ddaa_gb=current_ddaa_gb + (avg_gb_storage_per_day * day)\n    | table indexName, _time, day, forecasted_ddas_gb,ddas_license_gb,forecasted_ddaa_gb,ddaa_license_gb\" \n| stats sum(forecasted_ddas_gb) as forecasted_ddas_gb max(ddas_license_gb) as ddas_license_gb sum(forecasted_ddaa_gb) as forecasted_ddaa_gb max(ddaa_license_gb) as ddaa_license_gb by _time,day \n| eval forecast_perc_ddas_utilization=100*(forecasted_ddas_gb/ddas_license_gb) \n| eval forecast_perc_ddaa_utilization=100*(forecasted_ddaa_gb/ddaa_license_gb) "
+			},
+			"type": "ds.chain"
+		},
 		"ds_7cxtoNuk": {
 			"name": "tam_fwd_flowact",
 			"options": {
@@ -2309,7 +2402,7 @@
 		"ds_BXeLWlrU": {
 			"name": "tam_dq_base",
 			"options": {
-				"query": "| tstats count as eventCount where index=* by sourcetype \n| join type=left sourcetype \n    [| btool props list splunk_server=local ```btool command requires admin's little helper app```\n    | eval sourcetype='btool.stanza' \n    | eval app='btool.stanza.app' \n    | table sourcetype,app,SHOULD_LINEMERGE,LINE_BREAKER,TIME_PREFIX,MAX_TIMESTAMP_LOOKAHEAD,TIME_FORMAT,TRUNCATE,EVENT_BREAKER_ENABLE,EVENT_BREAKER \n    | eval has_props=\"true\"] \n| join type=left sourcetype \n    [ search `sim_set_index_internal` source=*splunkd.log* \n        (component=AggregatorMiningProcessor OR component=LineBreakingProcessor OR component=DateParserVerbose)\n        (log_level=WARN OR log_level=ERROR) \n    | rex field=_raw \"Context: source(::|=)(?<context_source>[^\\|]*?)\\|host(::|=)(?<context_host>[^\\|]*?)\\|(?<context_sourcetype>[^\\|]*?)\\|\" \n    | eval data_source = if(isnull(data_source) AND isnotnull(context_source), context_source, data_source) \n    | eval data_sourcetype = if(isnull(data_sourcetype) AND isnotnull(context_sourcetype), context_sourcetype, data_sourcetype) \n    | eval data_host = if(isnull(data_host) AND isnotnull(context_host), context_host, data_host) \n    | search `sim_exclude_internal_sourcetypes(data_sourcetype)` \n    | stats\n        count(eval(component==\"LineBreakingProcessor\" OR component==\"DateParserVerbose\" OR component==\"AggregatorMiningProcessor\")) as total_issues\n        dc(data_source) AS \"Source Count\"\n        count(eval(component==\"LineBreakingProcessor\")) AS line_breaking_issues\n        count(eval(component==\"DateParserVerbose\")) AS timestamp_parsing_issues\n        count(eval(component==\"AggregatorMiningProcessor\")) AS aggregation_issues by data_sourcetype \n    | sort - total_issues \n    | rename\n        data_sourcetype as sourcetype] \n| eval props_status=if(isnull(has_props), \"BAD\", \"GOOD\") \n| eval props_deployment_status=if(app=\"search\",\"BAD\",\"GOOD\") \n| eval dataquality_status=if(total_issues>100,\"BAD\",\"GOOD\") \n| eval sourcetype_overall_status=if(props_status=\"GOOD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"GOOD\",\"GOOD\",\"BAD\") \n| eval sourcetype_overall_status_desc=case(sourcetype_overall_status=\"GOOD\",null,props_status=\"GOOD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"BAD\",\"Poor data quality\",props_status=\"GOOD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"GOOD\",\"Props not deployed correctly in private app\", props_status=\"GOOD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"BAD\",\"Poor data quality / Props not deployed correctly in private app\",props_status=\"BAD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"GOOD\",\"Missing props\",props_status=\"BAD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"BAD\",\"Missing props / Poor data quality\",props_status=\"BAD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"GOOD\",\"Missing props\",props_status=\"BAD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"BAD\",\"Missing props / Poor data quality\") \n| fillnull value=0 total_issues \n| table sourcetype,sourcetype_overall_status,sourcetype_overall_status_desc,app,total_issues,line_breaking_issues,timestamp_parsing_issues,aggregation_issues,SHOULD_LINEMERGE,LINE_BREAKER,TIME_PREFIX,MAX_TIMESTAMP_LOOKAHEAD,TIME_FORMAT,TRUNCATE,EVENT_BREAKER_ENABLE,EVENT_BREAKER \n| sort -total_issues",
+				"query": "| tstats count as eventCount where index=* by sourcetype \n| join type=left sourcetype \n    [| rest /servicesNS/-/-/configs/conf-props splunk_server=local \n    | rename title as sourcetype \n    | eval app=\"eai:acl.app\" \n    | table sourcetype,app,SHOULD_LINEMERGE,LINE_BREAKER,TIME_PREFIX,MAX_TIMESTAMP_LOOKAHEAD,TIME_FORMAT,TRUNCATE,EVENT_BREAKER_ENABLE,EVENT_BREAKER \n    | eval has_props=\"true\"] \n| join type=left sourcetype \n    [ search `sim_set_index_internal` source=*splunkd.log* \n        (component=AggregatorMiningProcessor OR component=LineBreakingProcessor OR component=DateParserVerbose)\n        (log_level=WARN OR log_level=ERROR) \n    | rex field=_raw \"Context: source(::|=)(?<context_source>[^\\|]*?)\\|host(::|=)(?<context_host>[^\\|]*?)\\|(?<context_sourcetype>[^\\|]*?)\\|\" \n    | eval data_source = if(isnull(data_source) AND isnotnull(context_source), context_source, data_source) \n    | eval data_sourcetype = if(isnull(data_sourcetype) AND isnotnull(context_sourcetype), context_sourcetype, data_sourcetype) \n    | eval data_host = if(isnull(data_host) AND isnotnull(context_host), context_host, data_host) \n    | search `sim_exclude_internal_sourcetypes(data_sourcetype)` \n    | stats\n        count(eval(component==\"LineBreakingProcessor\" OR component==\"DateParserVerbose\" OR component==\"AggregatorMiningProcessor\")) as total_issues\n        dc(data_source) AS \"Source Count\"\n        count(eval(component==\"LineBreakingProcessor\")) AS line_breaking_issues\n        count(eval(component==\"DateParserVerbose\")) AS timestamp_parsing_issues\n        count(eval(component==\"AggregatorMiningProcessor\")) AS aggregation_issues by data_sourcetype \n    | sort - total_issues \n    | rename\n        data_sourcetype as sourcetype] \n| eval props_status=if(isnull(has_props), \"BAD\", \"GOOD\") \n| eval props_deployment_status=if(app=\"search\",\"BAD\",\"GOOD\") \n| eval dataquality_status=if(total_issues>100,\"BAD\",\"GOOD\") \n| eval sourcetype_overall_status=if(props_status=\"GOOD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"GOOD\",\"GOOD\",\"BAD\") \n| eval sourcetype_overall_status_desc=case(sourcetype_overall_status=\"GOOD\",null,props_status=\"GOOD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"BAD\",\"Poor data quality\",props_status=\"GOOD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"GOOD\",\"Props not deployed correctly in private app\", props_status=\"GOOD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"BAD\",\"Poor data quality / Props not deployed correctly in private app\",props_status=\"BAD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"GOOD\",\"Missing props\",props_status=\"BAD\" AND props_deployment_status=\"GOOD\" AND dataquality_status=\"BAD\",\"Missing props / Poor data quality\",props_status=\"BAD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"GOOD\",\"Missing props\",props_status=\"BAD\" AND props_deployment_status=\"BAD\" AND dataquality_status=\"BAD\",\"Missing props / Poor data quality\") \n| fillnull value=0 total_issues \n| table sourcetype,sourcetype_overall_status,sourcetype_overall_status_desc,app,total_issues,line_breaking_issues,timestamp_parsing_issues,aggregation_issues,SHOULD_LINEMERGE,LINE_BREAKER,TIME_PREFIX,MAX_TIMESTAMP_LOOKAHEAD,TIME_FORMAT,TRUNCATE,EVENT_BREAKER_ENABLE,EVENT_BREAKER \n| sort -total_issues",
 				"queryParameters": {
 					"earliest": "$sel_time_tok.earliest$",
 					"latest": "$sel_time_tok.latest$"
@@ -2363,7 +2456,7 @@
 		"ds_FXSMUGAz": {
 			"name": "tam_dq_btoolprops",
 			"options": {
-				"query": "| btool props list splunk_server=local \n| eval sourcetype='btool.stanza' \n| search sourcetype=\"$sel_tok_sourcetype$\" \n| eval app='btool.stanza.app' \n| table sourcetype,_raw",
+				"query": "| rest /servicesNS/-/-/configs/conf-props splunk_server=local \n| rename title as sourcetype \n| eval app='eai:acl.app' \n| search sourcetype=\"$sel_tok_sourcetype$\" \n| table sourcetype,SHOULD_LINEMERGE,LINE_BREAKER,TIME_PREFIX,MAX_TIMESTAMP_LOOKAHEAD,TIME_FORMAT,TRUNCATE,EVENT_BREAKER_ENABLE,EVENT_BREAKER\n| transpose header_field=sourcetype column_name=\"Props Configuration\"",
 				"queryParameters": {
 					"earliest": "$sel_time_tok.earliest$",
 					"latest": "$sel_time_tok.latest$"
@@ -2866,6 +2959,14 @@
 			},
 			"type": "ds.chain"
 		},
+		"ds_pIuRDk6k_ds_D2U0W01v": {
+			"name": "tam_storage_ddas_fperc_timechart",
+			"options": {
+				"extend": "ds_79O1dZSK",
+				"query": "| timechart span=1d  max(forecast_perc_ddas_utilization) as forecast_perc_ddas_utilization\n"
+			},
+			"type": "ds.chain"
+		},
 		"ds_paYoEoBZ": {
 			"name": "tam_wlm_filtered_perc",
 			"options": {
@@ -3034,6 +3135,14 @@
 			"options": {
 				"extend": "ds_vCSYdl88",
 				"query": "| table sid,app,provenance,savedsearch_name,category,runDuration \n| eval runDurationMins=runDuration/60\n| sort - runDuration\n| fields - runDuration\n| rename sid as \"Session ID (SID)\", app as \"App\",provenance as \"Provenance\",savedsearch_name as \"Saved Search\", category as \"Category\", runDurationMins as \"Run Duration (min)\" "
+			},
+			"type": "ds.chain"
+		},
+		"ds_z78JjFfb_ds_Ef3T5rpa": {
+			"name": "tam_storage_ddaa_fperc_timechart",
+			"options": {
+				"extend": "ds_79O1dZSK",
+				"query": "| timechart span=1d  max(forecast_perc_ddaa_utilization) as forecast_perc_ddaa_utilization\n"
 			},
 			"type": "ds.chain"
 		},
@@ -3633,102 +3742,122 @@
 			"layout_YPQsh9iX": {
 				"structure": [
 					{
-						"item": "viz_Io4IFQsK",
+						"item": "viz_ESqfnWoq",
 						"position": {
-							"h": 193,
-							"w": 300,
+							"h": 261,
+							"w": 600,
 							"x": 0,
 							"y": 0
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_Io4IFQsK",
+						"position": {
+							"h": 194,
+							"w": 300,
+							"x": 0,
+							"y": 261
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_GgY1zzwE",
 						"position": {
-							"h": 197,
+							"h": 222,
 							"w": 300,
 							"x": 0,
-							"y": 193
+							"y": 455
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_lhDZzGNu",
 						"position": {
-							"h": 532,
+							"h": 538,
 							"w": 600,
 							"x": 0,
-							"y": 390
+							"y": 677
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_SlSWimtI",
 						"position": {
-							"h": 193,
+							"h": 194,
 							"w": 300,
 							"x": 300,
-							"y": 0
+							"y": 261
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_0Ef6FKRS",
 						"position": {
-							"h": 197,
+							"h": 222,
 							"w": 300,
 							"x": 300,
-							"y": 193
+							"y": 455
+						},
+						"type": "block"
+					},
+					{
+						"item": "viz_L076bg9n",
+						"position": {
+							"h": 261,
+							"w": 600,
+							"x": 600,
+							"y": 0
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_0ZaSBFD2",
 						"position": {
-							"h": 193,
+							"h": 194,
 							"w": 300,
 							"x": 600,
-							"y": 0
+							"y": 261
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_v9POkuWo",
 						"position": {
-							"h": 197,
+							"h": 222,
 							"w": 300,
 							"x": 600,
-							"y": 193
+							"y": 455
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_UMj1csKW",
 						"position": {
-							"h": 532,
+							"h": 538,
 							"w": 600,
 							"x": 600,
-							"y": 390
+							"y": 677
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_CUpwmnxO",
 						"position": {
-							"h": 193,
+							"h": 194,
 							"w": 300,
 							"x": 900,
-							"y": 0
+							"y": 261
 						},
 						"type": "block"
 					},
 					{
 						"item": "viz_7E0FIaGE",
 						"position": {
-							"h": 197,
+							"h": 222,
 							"w": 300,
 							"x": 900,
-							"y": 193
+							"y": 455
 						},
 						"type": "block"
 					}
@@ -3816,7 +3945,7 @@
 						"item": "viz_9y8djFdK",
 						"position": {
 							"h": 506,
-							"w": 1200,
+							"w": 600,
 							"x": 0,
 							"y": 400
 						},
@@ -3825,10 +3954,10 @@
 					{
 						"item": "viz_79XD6kkV",
 						"position": {
-							"h": 699,
-							"w": 1200,
-							"x": 0,
-							"y": 906
+							"h": 506,
+							"w": 600,
+							"x": 600,
+							"y": 400
 						},
 						"type": "block"
 					},
