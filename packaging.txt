@@ -1,0 +1,1 @@
+COPYFILE_DISABLE=1 tar --format ustar -cvzf splunk_tam_monitoring_0_0_7.tar.gz splunk_tam_monitoring/
