@@ -20,8 +20,8 @@
 			"ds.o11y": {
 				"options": {
 					"queryParameters": {
-						"earliest": "$global_time.earliest$",
-						"latest": "$global_time.latest$"
+						"latest": "$global_time.latest$",
+						"earliest": "$global_time.earliest$"
 					}
 				}
 			},
@@ -2370,7 +2370,7 @@
 		"ds_8oG11wYA": {
 			"name": "tam_wlm_abort_perc",
 			"options": {
-				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* wlm_action = \"abort\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as aborted by _time] \n| bucket _time span=1h \n| table _time,searches,aborted \n| stats sum(searches) as searches, sum(aborted) as aborted by _time \n| sort _time \n| eval total=searches+aborted \n| eval perc_aborted=100*(aborted/total) \n| streamstats avg(perc_aborted) as avg_perc_aborted \n| timechart span=1h latest(avg_perc_aborted) as avg_perc_aborted \n| where isnotnull(avg_perc_aborted)\n| where avg_perc_aborted>0",
+				"query": "| union maxout=0 \n    [ search index=_audit action=search sourcetype=audittrail fully_completed_search=* host=\"sh-*\" NOT user IN(cmon_user,internal_observability) \n    | where NOT match(info, \"^granted|^denied\") \n    | stats latest(_time) as _time by search_id, fully_completed_search \n    | bucket _time span=1h \n    | stats count as searches by _time] \n    [ search index=_internal sourcetype=wlm_* wlm_action = \"abort\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as aborted by _time] \n| bucket _time span=1h \n| table _time,searches,aborted \n| stats sum(searches) as searches, sum(aborted) as aborted by _time \n| sort _time \n| eval total=searches+aborted \n| eval perc_aborted=100*(aborted/total) \n| streamstats avg(perc_aborted) as avg_perc_aborted \n| timechart span=1h latest(avg_perc_aborted) as avg_perc_aborted \n| where isnotnull(avg_perc_aborted) \n| where avg_perc_aborted>0",
 				"queryParameters": {
 					"earliest": "$sel_time_tok.earliest$",
 					"latest": "$sel_time_tok.latest$"
@@ -2614,7 +2614,7 @@
 		"ds_N0L5C9Pj": {
 			"name": "tam_wlm_reclassified_perc",
 			"options": {
-				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* wlm_action = \"move\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as reclassified by _time] \n| bucket _time span=1h \n| table _time,searches,reclassified \n| stats sum(searches) as searches, sum(reclassified) as reclassified by _time \n| sort _time \n| eval total=searches+reclassified \n| eval perc_reclassified=100*(reclassified/total) \n| streamstats avg(perc_reclassified) as avg_perc_reclassified \n| timechart span=1h latest(avg_perc_reclassified) as avg_perc_reclassified \n| where isnotnull(avg_perc_reclassified)\n| where avg_perc_reclassified>0",
+				"query": "| union maxout=0 \n    [ search index=_audit action=search sourcetype=audittrail fully_completed_search=* host=\"sh-*\" NOT user IN(cmon_user,internal_observability) \n    | where NOT match(info, \"^granted|^denied\") \n    | stats latest(_time) as _time by search_id, fully_completed_search \n    | bucket _time span=1h \n    | stats count as searches by _time] \n    [ search index=_internal sourcetype=wlm_* wlm_action = \"move\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as reclassified by _time] \n| bucket _time span=1h \n| table _time,searches,reclassified \n| stats sum(searches) as searches, sum(reclassified) as reclassified by _time \n| sort _time \n| eval total=searches+reclassified \n| eval perc_reclassified=100*(reclassified/total) \n| streamstats avg(perc_reclassified) as avg_perc_reclassified \n| timechart span=1h latest(avg_perc_reclassified) as avg_perc_reclassified \n| where isnotnull(avg_perc_reclassified) \n| where avg_perc_reclassified>0",
 				"queryParameters": {
 					"earliest": "$sel_time_tok.earliest$",
 					"latest": "$sel_time_tok.latest$"
@@ -2989,7 +2989,7 @@
 		"ds_paYoEoBZ": {
 			"name": "tam_wlm_filtered_perc",
 			"options": {
-				"query": "| union maxout=0 \n    [ search index=summary source=sat_search_hunter sid=* host=\"sh-*\" \n    | bucket _time span=1h \n    | stats dc(sid) as searches by _time] \n    [ search index=_internal sourcetype=wlm_* \"prefilter_action=filter\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as filtered by _time] \n| bucket _time span=1h \n| table _time,searches,filtered \n| stats sum(searches) as searches, sum(filtered) as filtered by _time \n| sort _time \n| eval total=searches+filtered \n| eval perc_filtered=100*(filtered/total) \n| streamstats avg(perc_filtered) as avg_perc_filtered \n| timechart span=1h latest(avg_perc_filtered) as avg_perc_filtered \n| where isnotnull(avg_perc_filtered)\n| where avg_perc_filtered>0",
+				"query": "| union maxout=0 \n    [ search index=_audit action=search sourcetype=audittrail fully_completed_search=* host=\"sh-*\" NOT user IN(cmon_user,internal_observability) \n    | where NOT match(info, \"^granted|^denied\") \n    | stats latest(_time) as _time by search_id, fully_completed_search \n    | bucket _time span=1h \n    | stats count as searches by _time] \n    [ search index=_internal sourcetype=wlm_* \"prefilter_action=filter\" host=\"sh-*\" \n    | bucket _time span=1h \n    | stats count as filtered by _time] \n| bucket _time span=1h \n| table _time,searches,filtered \n| stats sum(searches) as searches, sum(filtered) as filtered by _time \n| sort _time \n| eval total=searches+filtered \n| eval perc_filtered=100*(filtered/total) \n| streamstats avg(perc_filtered) as avg_perc_filtered \n| timechart span=1h latest(avg_perc_filtered) as avg_perc_filtered \n| where isnotnull(avg_perc_filtered) \n| where avg_perc_filtered>0",
 				"queryParameters": {
 					"earliest": "$sel_time_tok.earliest$",
 					"latest": "$sel_time_tok.latest$"
